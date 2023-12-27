@@ -1,2 +1,2 @@
-x="i like chicken"
+x="i like children"
 print(x)
