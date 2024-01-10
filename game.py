@@ -11,35 +11,26 @@
 import random
 import turtle
 
-##Randomizer##
+## Randomizer ##
 
-num_shapes=[1,2,3,4,5,6,7,8]
-random_num_shapes = random.choice(num_shapes)
-
+#Chooses types of shape for the question 
 shapes = ["square", "circle", "triangle"]
-random_shape = random.choice(shapes)
+shape_1 = random.choice(shapes)
+shape_2 = random.choice(shapes)
+shape_3 = random.choice(shapes)
+chosen_shapes = [shape_1, shape_2, shape_3]
 
+#Chooses how many shapes will be drawn 
+random_num_shapes = random.randint(1, 2)	
 
-
-print("The randomly chosen shape is:", random_shape)
-print(f"{random_num_shapes}")
-
-##Shapes##
-
+## Draw functions ## ALL OF THESE DRAWINGS ARE JUST FOR TESTING, CAN CHANGE 
+t = turtle.Turtle()
+t.speed(0)
+side_length = 50 #sample sidelength can change in the future
+radius = 25
 #Triangle
-
-def draw_small_triangle(x, y, side_length):
-  """
-  Draws a small equilateral triangle at the specified location with the given side length.
-
-  Args:
-    x: The horizontal coordinate of the triangle's base center.
-    y: The vertical coordinate of the triangle's base center.
-    side_length: The length of one side of the triangle.
-  """
-  t = turtle.Turtle()
+def draw_triangle():
   t.penup()
-  t.goto(x - side_length / 2, y)
   t.pendown()
   t.forward(side_length)
   t.left(120)
@@ -49,10 +40,8 @@ def draw_small_triangle(x, y, side_length):
   t.penup()
   t.hideturtle()
 #Square
-def draw_square(x, y, side_length):
-  t = turtle.Turtle()
+def draw_square():
   t.penup()
-  t.goto(x - side_length / 2, y - side_length / 2)
   t.pendown()
   for _ in range(4):
     t.forward(side_length)
@@ -60,23 +49,62 @@ def draw_square(x, y, side_length):
   t.penup()
   t.hideturtle()
 #Cicle 
-def draw_circle(x, y, radius):
-  t = turtle.Turtle()
+def draw_circle():
   t.penup()
-  t.goto(x, y)
   t.pendown()
   t.circle(radius)
   t.penup()
   t.hideturtle()
 
-##Draw##
+# Shapes counter ##
+shape_counter = {}  # Initialize an empty dictionary for counts
 
-if random_shape == "triangle":
-  draw_small_triangle(0, 0, 50)
-  turtle.done()
-elif random_shape == "square":
-  draw_square(0, 0, 50)
-  turtle.done()
-elif random_shape =="circle":
-  draw_circle(0, 0, 25)
-  turtle.done()
+def count(shape_counter, shape):
+    if shape in shape_counter:
+        shape_counter[shape] += 1  # Add one count if shape exists
+    else:
+        shape_counter[shape] = 1  # Add shape with count 1 if new
+    return shape_counter  # Return the updated dictionary
+def printcount():
+    print("Shape counts:")
+    for shape, count in shape_counter.items():
+     print(f"- {shape}: {count}")
+
+
+
+## Coordinates ##
+base_coordinates1 = (0, 0)
+base_coordinates2 = (100, 0)
+
+## Drawing ##
+#Random pick chosen shapes and record the shape picked
+
+
+# count(shape_counter, shape)
+
+#Call draw function
+
+def draw(chosen_shapes):
+    """Draws a random shape from the given list of shapes."""
+
+    shape = random.choice(chosen_shapes)
+
+    if shape == "triangle":
+        draw_triangle()
+    elif shape == "square":
+        draw_square()
+    elif shape == "circle":
+        draw_circle()
+    count(shape_counter, shape)
+
+if random_num_shapes == 1:
+  t.goto(0,0)
+  draw(chosen_shapes)
+elif random_num_shapes == 2:
+  t.goto(base_coordinates1[0], base_coordinates1[1])
+  draw(chosen_shapes)
+  t.goto(base_coordinates2[0], base_coordinates2[1])
+  draw(chosen_shapes)
+
+turtle.mainloop()
+printcount()
