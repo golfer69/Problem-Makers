@@ -1,8 +1,8 @@
-#not working atm but still trying and error
+
 
 import sqlite3
 
-conn = sqlite3.connect('gamedata') #database
+conn = sqlite3.connect('gamedata.db') #database
 cursor= conn.cursor() #interface to database
 
 cursor.execute("""
@@ -22,12 +22,12 @@ INSERT INTO Leaderboard VALUES
 
 cursor.execute("""
 SELECT * FROM Leaderboard
-               WHERE Name = 'Alif Akmal'
+               WHERE Contestants = 'Alif Akmal'
                """)
 
-rows=cursor.fetchall()
+rows=cursor.fetchone()
 print(rows)
 
+conn.commit
+conn.close
 
-conn.commit()
-conn.close()
