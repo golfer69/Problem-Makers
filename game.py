@@ -13,11 +13,13 @@ import turtle
 
 ##Randomizer##
 
+num_shapes=[1,2,3,4,5,6,7,8]
+random_num_shapes = random.choice(num_shapes)
+
 shapes = ["square", "circle", "triangle"]
 random_shape = random.choice(shapes)
 
-num_shapes=[1,2,3,4,5,6,7,8]
-random_num_shapes = random.choice(num_shapes)
+
 
 print("The randomly chosen shape is:", random_shape)
 print(f"{random_num_shapes}")
