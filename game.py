@@ -30,6 +30,7 @@ side_length = 50 #sample sidelength can change in the future
 radius = 25
 #Triangle
 def draw_triangle():
+  #dont change the function name, just the code below
   t.penup()
   t.pendown()
   t.forward(side_length)
@@ -106,5 +107,5 @@ elif random_num_shapes == 2:
   t.goto(base_coordinates2[0], base_coordinates2[1])
   draw(chosen_shapes)
 
-turtle.mainloop()
 printcount()
+turtle.mainloop()
