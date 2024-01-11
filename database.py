@@ -1,3 +1,6 @@
+#Alif's Database ᕦ ε ᕥ
+
+
 import sqlite3
 
 conn = sqlite3.connect('gamedata.db')  # database
