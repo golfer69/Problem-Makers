@@ -60,6 +60,7 @@ def draw_circle():
 # Shapes counter ##
 shape_counter = {}  # Initialize an empty dictionary for counts
 
+<<<<<<< Updated upstream
 def count(shape_counter, shape):
     if shape in shape_counter:
         shape_counter[shape] += 1  # Add one count if shape exists
@@ -109,3 +110,17 @@ elif random_num_shapes == 2:
 
 printcount()
 turtle.mainloop()
+=======
+if random_shape == "triangle":
+  draw_small_triangle(0, 0, 50)
+  turtle.done()
+elif random_shape == "square":
+  draw_square(0, 0, 50)
+  turtle.done()
+elif random_shape =="circle":
+  draw_circle(0, 0, 25)
+  turtle.done()
+
+
+
+>>>>>>> Stashed changes
