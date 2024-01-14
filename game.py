@@ -114,18 +114,22 @@ questions = [
     {"question": "What shape is it?", "answers": ["Triangle","Circle","Square"], "correct": list(shape_counter.keys())[0]},
 ]
 #prints question 
-question_label = tk.Label(window, text=["question"])
+question_index = 0
+current_question = questions[question_index]
+question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
 #create answers button and respond to clicked button
 answer_buttons = []
 for answer in questions[0]["answers"]: 
-    button = tk.Button(window, text=answer, command=lambda text=answer: check_answer(text))
-    button.pack(pady=5)
-    answer_buttons.append(button)
+   button = tk.Button(window, text=answer, command=lambda text=answer, score=score: check_answer(text, score))
+   button.pack(pady=5)
+   answer_buttons.append(button)
 #check ans
-def check_answer(text):
+def check_answer(text, score):
     if text == questions[0]["correct"]:
+        score += 1
         print("congrats ig LOL")
+        print(score)
     else:
        print(text)
        print(f"the ans is {questions[0]["correct"]}" )
