@@ -128,7 +128,7 @@ for answer in questions[0]["answers"]:
 def check_answer(text, score):
     if text == questions[0]["correct"]:
         score += 1
-        print("congrats ig LOL")
+        print("NICE")
         print(score)
     else:
        print(text)
