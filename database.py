@@ -1,33 +1,33 @@
 #Alif's Database ᕦ ε ᕥ
 
+def insertkey():
+    return input("Enter your name: ")
 
-import sqlite3
+def insertvalue():
+    return int(input("Enter your score: "))
 
-conn = sqlite3.connect('gamedata.db')  # database
-cursor = conn.cursor()  # interface to database
+# Call the functions to get user input
+name = insertkey()
+score = insertvalue()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS Leaderboard (
-               Contestants TEXT,
-               Score INTEGER
-               )
-""")
-#user inputs name and score
-contestants = input("Enter your name: ")
-score = int(input("Enter your score: "))
+# Create the database dictionary using the obtained values
+database = {'Name': name, 'Score': score}
 
-#insert into contestant and score columns
-cursor.execute("""
-INSERT INTO Leaderboard (Contestants, Score) 
-               VALUES (?, ?)
-               """, (contestants, score))
+# Function to insert new key-value pair
+def insert_new_data():
+    new_key = input("Enter your name (or type 'close' to stop): ")
 
-cursor.execute("""
-SELECT * FROM Leaderboard
-               """)
+    # Check if the user wants to stop
+    if new_key.lower() == 'close':
+        return False
 
-rows = cursor.fetchall()
-print(rows)
+    new_value = input("Enter your score: ")
+    database[new_key] = new_value
+    print(f"Data inserted: {new_key}: {new_value}")
+    return True
 
-conn.commit()  
-conn.close()
+# Continuously insert new data
+while insert_new_data():
+    pass
+
+print(database)
