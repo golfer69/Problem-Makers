@@ -11,6 +11,18 @@
 import random
 import turtle
 import tkinter as tk
+from turtle import RawTurtle, TurtleScreen
+
+# window and score
+window = tk.Tk()
+window.title("Shapey | Quiz window")
+# Create the Canvas for Turtle graphics
+canvas = tk.Canvas(window, width=600, height=400)
+canvas.pack()
+
+# Link Turtle to the Canvas
+screen = TurtleScreen(canvas)  # Link Turtle to the Canvas
+t = RawTurtle(screen)  # Create a RawTurtle instance
 
 ## Randomizer ##
 
@@ -25,11 +37,13 @@ chosen_shapes = [shape_1, shape_2, shape_3]
 random_num_shapes = random.randint(1, 2)	
 
 ## Draw functions ## 
-t = turtle.Turtle()
 t.speed(0)
+
 side_length = 50 #sample sidelength can change in the future
 radius = 25
+
 #Triangle
+
 def draw_triangle():
   #dont change the function name, just the code below
   t.penup()
@@ -59,6 +73,7 @@ def draw_circle():
   t.hideturtle()
 
 # Shapes counter ##
+
 shape_counter = {}  # Initialize an empty dictionary for counts
 
 def count(shape_counter, shape):
@@ -73,8 +88,10 @@ def printcount():
      print(f"- {shape}: {count}")
 
 ## Coordinates ##
+     
 base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
+
 
 ## Drawing ##
 #Random pick chosen shapes and record the shape picked
@@ -85,7 +102,6 @@ def draw(chosen_shapes):
     """Draws a random shape from the given list of shapes."""
 
     shape = random.choice(chosen_shapes)
-
     if shape == "Triangle":
         draw_triangle()
     elif shape == "Square":
@@ -105,36 +121,59 @@ elif random_num_shapes == 2:
   
 ## Quiz ##
 
-# window and score
-window = tk.Tk()
-window.geometry("500x300")
-window.title("Shapey | Quiz window")
 score = 0
+shape_index = 0
 questions = [
-    {"question": "What shape is it?", "answers": ["Triangle","Circle","Square"], "correct": list(shape_counter.keys())[0]},
+    {"question": "What shape is it?", "answers": ["Triangle","Circle","Square"], 
+     "correct": list(shape_counter.keys())[shape_index]}
 ]
+
+def next_question():
+    global question_index, current_question, answer_buttons, shape_index
+    if question_index == (random_num_shapes-1):
+        # Show score and end quiz
+        end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
+    else:
+        current_question = questions[question_index]
+        question_label.config(text=current_question["question"])
+        for i, answer in enumerate(current_question["answers"]):
+            answer_buttons[i].config(text=answer)
+            question_index+=1
+        shape_index += 1    
+
 #prints question 
 question_index = 0
 current_question = questions[question_index]
+tk.Label(window, text=("Question #"+ str(question_index)))
 question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
+
 #create answers button and respond to clicked button
+
 answer_buttons = []
 for answer in questions[0]["answers"]: 
-   button = tk.Button(window, text=answer, command=lambda text=answer, score=score: check_answer(text, score))
-   button.pack(pady=5)
-   answer_buttons.append(button)
+  button = tk.Button(window, text=answer, command=lambda text=answer: (
+    check_answer(text),  # Call check_answer first
+    next_question()  # Then call next_question 
+    ))
+  button.pack(pady=5)
+  answer_buttons.append(button)
+
+end_label = tk.Label(window, text="")
+end_label.pack()
+
 #check ans
-def check_answer(text, score):
+def check_answer(text):
+    global score
     if text == questions[0]["correct"]:
         score += 1
         print("NICE")
         print(score)
+      
     else:
        print(text)
-       print(f"the ans is {questions[0]["correct"]}" )
+       print(f"the ans is {current_question["correct"]}" )
 
 window.mainloop()
 printcount()
-turtle.mainloop()
 
