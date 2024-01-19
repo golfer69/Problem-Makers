@@ -1,0 +1,2 @@
+def insertvalue():
+    return int(input("Enter your score: "))
