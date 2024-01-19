@@ -30,6 +30,7 @@
 
 
 import tkinter as tk
+import json
 
 def showname():
     enteredname = user.get()
@@ -44,6 +45,17 @@ def update_leaderboard(name, score):
 def show_leaderboard():
     leaderboard_text.set("Leaderboard:\n" + "-------------\n" + "\n".join(f"{name}: {score}" for name, score in sorted(database.items(), key=lambda x: x[1], reverse=True)))
 
+def save_data_to_file():
+    with open('data.json', 'w') as file:
+        json.dump(database, file)
+
+def load_data_from_file():
+    try:
+        with open('data.json', 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+
 home = tk.Tk()
 home.geometry('600x400')
 home.title('My Game')
@@ -51,7 +63,7 @@ home.title('My Game')
 start = tk.Label(home, text='Welcome to our game!', font=('Helvetica', 16), fg='purple', bg='lightblue')
 start.pack(padx=10, pady=50)
 
-name_label = tk.Label(home, text='Enter your name and score below', font=('Comic Sans MC', 20))
+name_label = tk.Label(home, text='Enter your name', font=('Comic Sans MC', 20))
 name_label.pack()
 
 user = tk.Entry(home, font=('Arial', 10))
@@ -73,6 +85,6 @@ leaderboard_text = tk.StringVar()
 leaderboard_label = tk.Label(home, textvariable=leaderboard_text, font=('Arial', 12))
 leaderboard_label.pack(pady=10)
 
-database = {}
+database = load_data_from_file()
 
 home.mainloop()
