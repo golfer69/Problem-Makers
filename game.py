@@ -12,7 +12,6 @@ import random
 import turtle
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
-from functools import partial
 
 # window and score
 window = tk.Tk()
@@ -167,7 +166,7 @@ def next_question():
         question_label.config(text=current_question["question"]) #configure the label for question
         question_no_label.config(text="Question #"+ str((question_index+1))) #configure number of the question
         for i, answer in enumerate(current_question["answers"]):
-          update_buttons()
+          answer_buttons[i].config(text=answer)
         question_index += 1
   
 # Prints question 
@@ -181,43 +180,38 @@ question_no_label.pack(pady=20) #show the widget
 question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
 
-# Create answers button and respond to clicked button
-
-def update_buttons(): # refreshes the widget values
-  answer_buttons = [] #create a list to append
-  print("Buttons REFRESHED")
-  for answers in current_question["answers"]: 
-    button = tk.Button(window, text=answers, command=lambda answer=answers: (check_answer(answer), next_question()))  
-    button.pack(pady=5)
-    answer_buttons.append(button)
-
-update_buttons()
-
-
-
-end_label = tk.Label(window, text="")
-end_label.pack()
-
 # Check ans and record score
 score = 0
-def check_answer(answer):
+def check_answer(index):
+    selected_answer = answer_buttons[index].cget("text")
     print("Answer checked")
     global score
-    if answer in current_question["correct"]:
+    if selected_answer in current_question["correct"]:
         score += 1
         print(f"Score: {score}")
-        print(f"the answer is {answer}")
-        answered_shape = answer # Store the correct shape
+        print(f"the answer is {selected_answer}")
+        answered_shape = selected_answer # Store the correct shape
         print(f"Stored shape: {answered_shape}" ) 
         value_from_dict = shape_counter.get(answered_shape) # Gets the value of the shape
         print(f"Value from dict: {value_from_dict}") 
-    elif int(answer) == value_from_dict:
+    elif int(selected_answer) == value_from_dict:
       print(f"Value of correct shape is: {value_from_dict}" )
       score += 1
       print(f"Score: {score}")
     else:
-       print(answer)
+       print(selected_answer)
        print(f"the ans is {current_question["correct"]}" )
+
+# Create answers button and respond to clicked button
+
+answer_buttons = [] # Create a list to append
+for index, answers in enumerate(current_question["answers"]): 
+  button = tk.Button(window, text=answers, command=lambda index=index: (check_answer(index), next_question())) 
+  button.pack(pady=5)
+  answer_buttons.append(button)
+
+end_label = tk.Label(window, text="")
+end_label.pack()
 
 window.mainloop()
 printcount()
