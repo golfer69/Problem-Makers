@@ -12,6 +12,7 @@ import random
 import turtle
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
+from functools import partial
 
 # window and score
 window = tk.Tk()
@@ -36,7 +37,7 @@ chosen_shapes = [shape_1, shape_2, shape_3]
 #Chooses how many shapes will be drawn 
 random_num_shapes = random.randint(1, 2)	
 
-## Draw functions ## 
+## Draw functions ## (Scheewta part)
 t.speed(0)
 
 side_length = 50 #sample sidelength can change in the future
@@ -87,18 +88,15 @@ def printcount():
     for shape, count in shape_counter.items():
      print(f"- {shape}: {count}")
 
-## Coordinates ##
+## Coordinates ## (Scheewta part)
      
 base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
 
 
 ## Drawing ##
-#Random pick chosen shapes and record the shape picked
 
-#Call draw function
-
-def draw(chosen_shapes):
+def draw(chosen_shapes): #Call draw function
     """Draws a random shape from the given list of shapes."""
 
     shape = random.choice(chosen_shapes)
@@ -110,7 +108,7 @@ def draw(chosen_shapes):
         draw_circle()
     count(shape_counter, shape)
 
-if random_num_shapes == 1:
+if random_num_shapes == 1: # Go to different coodirnates depend on the number of shapes
   t.goto(0,0)
   draw(chosen_shapes)
 elif random_num_shapes == 2:
@@ -121,57 +119,104 @@ elif random_num_shapes == 2:
   
 ## Quiz ##
 
-score = 0
-shape_index = 0
-questions = [
-    {"question": "What shape is it?", "answers": ["Triangle","Circle","Square"], 
-     "correct": list(shape_counter.keys())[shape_index]}
-]
+# Questions
 
+def get_other_shapes(current_shape):
+    available_shapes = list(shapes)
+    available_shapes.remove(current_shape)
+    random.shuffle(available_shapes)
+    return available_shapes[:2]  # Choose 2 other shapes for answer options
+
+questions = [] 
+for index, (shape, count) in enumerate(shape_counter.items()):
+    other_shapes = get_other_shapes(shape)  # Call the function to get other shapes
+    questions.append({
+        "question": f"What is the #{index + 1} shape?",
+        "answers": [shape, *other_shapes],  # Unpack other_shapes here
+        "correct": [shape], 
+    })
+    questions.append({
+      "question": f"How many {shape} are there?",
+      "answers": ["1","2","3"],
+      "correct": [str(count)],
+    })
+
+# questions = [
+#     {"question": "What shape is it?", "answers": ["Triangle","Circle","Square"], 
+#      "correct": list(shape_counter.keys())},
+#     {"question": "How many are there?", "answers": ["1","2","3"], 
+#      "correct": list(shape_counter.values())}
+# ]
+
+# Function to show next question
+    
 def next_question():
-    global question_index, current_question, answer_buttons, shape_index
-    if question_index == (random_num_shapes-1):
-        # Show score and end quiz
-        end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
+    global question_index, current_question, answer_buttons
+    print(f"question_index: {question_index}")
+    if question_index == 0: #To skip to the next question (only applies for first question)
+        current_question = questions[question_index]
+        question_label.config(text=current_question["question"]) #configure the label for question
+        question_no_label.config(text="Question #"+ str((question_index+1))) #configure number of the question
+          # answer_buttons[i].config(text=answer)
+        question_index += 1
+        next_question()
+    elif question_index == len(questions):  # Show score and end quiz  
+      end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
     else:
         current_question = questions[question_index]
-        question_label.config(text=current_question["question"])
+        question_label.config(text=current_question["question"]) #configure the label for question
+        question_no_label.config(text="Question #"+ str((question_index+1))) #configure number of the question
         for i, answer in enumerate(current_question["answers"]):
-            answer_buttons[i].config(text=answer)
-            question_index+=1
-        shape_index += 1    
+          update_buttons()
+        question_index += 1
+  
+# Prints question 
 
-#prints question 
 question_index = 0
-current_question = questions[question_index]
-tk.Label(window, text=("Question #"+ str(question_index)))
+
+current_question = questions[question_index] # shows which question are they on 
+question_no_label= tk.Label(window, text="Question #"+ str((question_index+1)))
+question_no_label.pack(pady=20) #show the widget 
+
 question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
 
-#create answers button and respond to clicked button
+# Create answers button and respond to clicked button
 
-answer_buttons = []
-for answer in questions[0]["answers"]: 
-  button = tk.Button(window, text=answer, command=lambda text=answer: (
-    check_answer(text),  # Call check_answer first
-    next_question()  # Then call next_question 
-    ))
-  button.pack(pady=5)
-  answer_buttons.append(button)
+def update_buttons(): # refreshes the widget values
+  answer_buttons = [] #create a list to append
+  print("Buttons REFRESHED")
+  for answers in current_question["answers"]: 
+    button = tk.Button(window, text=answers, command=lambda answer=answers: (check_answer(answer), next_question()))  
+    button.pack(pady=5)
+    answer_buttons.append(button)
+
+update_buttons()
+
+
 
 end_label = tk.Label(window, text="")
 end_label.pack()
 
-#check ans
-def check_answer(text):
+# Check ans and record score
+score = 0
+def check_answer(answer):
+    print("Answer checked")
     global score
-    if text == questions[0]["correct"]:
+    if answer in current_question["correct"]:
         score += 1
-        print("NICE")
-        print(score)
-      
+        print(f"Score: {score}")
+        print(f"the answer is {answer}")
+        answered_shape = answer # Store the correct shape
+        print(f"Stored shape: {answered_shape}" ) 
+        value_from_dict = shape_counter.get(answered_shape) # Gets the value of the shape
+        print(f"Value from dict: {value_from_dict}") 
+    elif int(answer) == value_from_dict:
+      print(f"Value of correct shape is: {value_from_dict}" )
+      score += 1
+      print(f"Score: {score}")
     else:
-       print(text)
+       print(answer)
        print(f"the ans is {current_question["correct"]}" )
 
 window.mainloop()
