@@ -53,9 +53,16 @@ def draw_square():
 def draw_circle():
   t.penup()
   t.pendown()
+  t.end_fill()
   t.circle(radius)
   t.penup()
   t.hideturtle()
+  
+
+   
+     
+
+
 
 # Shapes counter ##
 shape_counter = {}  # Initialize an empty dictionary for counts
@@ -107,6 +114,9 @@ elif random_num_shapes == 2:
   draw(chosen_shapes)
   t.goto(base_coordinates2[0], base_coordinates2[1])
   draw(chosen_shapes)
+
+
+
 
 printcount()
 turtle.mainloop()
