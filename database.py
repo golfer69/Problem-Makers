@@ -62,3 +62,6 @@
 
 # # Show the leaderboard
 # show_leaderboard()
+
+def get_name():
+    

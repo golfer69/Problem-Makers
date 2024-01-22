@@ -32,29 +32,12 @@
 import tkinter as tk
 import json
 
-# def showname():
-#     enteredname = user.get()
-#     enteredscore= score.get()
-#     greeting_label.config(text=f'Hello, {enteredname}!')
-#     update_leaderboard(enteredname, enteredscore)  # You can initialize the score to 0 or any other default value
+def show_name():
+    entered_name = user.get()
 
-# def update_leaderboard(name, score):
-#     database[name] = score
-#     show_leaderboard()
-
-# def show_leaderboard():
-#     leaderboard_text.set("Leaderboard:\n" + "-------------\n" + "\n".join(f"{name}: {score}" for name, score in sorted(database.items(), key=lambda x: x[1], reverse=True)))
-
-# def save_data_to_file():
-#     with open('data.json', 'w') as file:
-#         json.dump(database, file)
-
-# def load_data_from_file():
-#     try:
-#         with open('data.json', 'r') as file:
-#             return json.load(file)
-#     except FileNotFoundError:
-#         return {}
+    # Save the name to a file
+    with open('name.txt', 'w') as file:
+        json.dump({'name': entered_name}, file)
 
 home = tk.Tk()
 home.geometry('600x400')
@@ -72,8 +55,10 @@ name_label.pack(pady=10)
 user = tk.Entry(home, font=('Arial', 10))
 user.pack(pady=10)
 
-enter_button=tk.Button(home, text='Play', font=('Helvetica', 15),)
+enter_button=tk.Button(home, text='Play', font=('Helvetica', 15))
 enter_button.pack(pady=10)
+
+print()
 
 # score_label = tk.Label(home, text='Enter score below', font=('Comic Sans MC', 20))
 # score_label.pack()
@@ -92,5 +77,4 @@ enter_button.pack(pady=10)
 # leaderboard_label.pack(pady=10)
 
 # database = load_data_from_file()
-
 home.mainloop()
