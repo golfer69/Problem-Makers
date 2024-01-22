@@ -13,6 +13,11 @@ import turtle
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 
+#homescreen initialisation
+with open("homescreen.py") as f:
+    code = f.read()
+exec(code)
+
 # window and score
 window = tk.Tk()
 window.title("Shapey | Quiz window")
@@ -222,3 +227,11 @@ end_label.pack()
 window.mainloop()
 printcount()
 
+#endscreen initialisation
+with open("endscreen.py") as f:
+    code = f.read()
+exec(code)
+
+with open("homescreen.py") as f:
+    code = f.read()
+exec(code)

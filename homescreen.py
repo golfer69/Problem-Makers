@@ -10,6 +10,7 @@ def play_game():
         global saved_name
         saved_name = user_name
         database[saved_name] = {'name': saved_name, 'score': 0}
+        home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
 
@@ -36,4 +37,3 @@ play_button.pack(pady=40)
 
 home.mainloop()
 
-print (database)
