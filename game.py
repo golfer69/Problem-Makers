@@ -124,12 +124,6 @@ elif random_num_shapes == 2:
   draw(chosen_shapes)
   
 ## Quiz ##
-
-<<<<<<< HEAD
-
-
-
-=======
 # Questions
 
 def get_other_shapes(current_shape):
@@ -226,6 +220,5 @@ end_label = tk.Label(window, text="")
 end_label.pack()
 
 window.mainloop()
->>>>>>> 4e753ae7b0d67d37e82aa856d5a61a9a10f10699
 printcount()
 
