@@ -1,7 +1,8 @@
 #Alif's Database ᕦ ε ᕥ
 
+
 # def insertkey():
-#     return input("Enter your name: ")
+#     return saved_name
 
 # def insertvalue():
 #     return int(input("Enter your score: "))
@@ -29,10 +30,6 @@
 # # Continuously insert new data
 # while insert_new_data():
 #     pass
-
-# print(database)
-
-
 
 
 # def show_leaderboard():
@@ -63,5 +60,12 @@
 # # Show the leaderboard
 # show_leaderboard()
 
-def get_name():
-    pass
+import homescreen
+
+def entry_name():
+    return saved_name
+
+
+database={}
+database[saved_name]={'name':saved_name, 'score':0}
+
