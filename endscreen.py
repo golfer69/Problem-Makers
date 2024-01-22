@@ -1,8 +1,22 @@
-#Alif's Database ᕦ ε ᕥ
+import tkinter as tk
+import homescreen
+
+end_screen=tk.Tk()
+end_screen.geometry('600x400')
+end_screen.title('Shapey')
+
+# name=tk.Label(end_screen, text='Enter your name', font=('Arial', 25))
+# name.pack(pady=40)
+
+# name_entry=tk.Entry(end_screen,)
+# name_entry.pack(pady=10)
+
+# enter_button=tk.Button(end_screen, text='Enter', font=('Helvetica', 15))
+# enter_button.pack(pady=20)
 
 
 # def insertkey():
-#     return saved_name
+#     return input("Enter your name: ")
 
 # def insertvalue():
 #     return int(input("Enter your score: "))
@@ -30,6 +44,10 @@
 # # Continuously insert new data
 # while insert_new_data():
 #     pass
+
+# print(database)
+
+
 
 
 # def show_leaderboard():
@@ -60,12 +78,7 @@
 # # Show the leaderboard
 # show_leaderboard()
 
-import homescreen
+end_screen.mainloop()
+print(database)
 
-def entry_name():
-    return saved_name
-
-
-database={}
-database[saved_name]={'name':saved_name, 'score':0}
 
