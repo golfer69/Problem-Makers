@@ -129,6 +129,7 @@ elif random_num_shapes == 2:
   draw(chosen_shapes)
   
 ## Quiz ##
+  
 # Questions
 
 def get_other_shapes(current_shape):
