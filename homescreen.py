@@ -32,16 +32,16 @@
 import tkinter as tk
 import json
 
-def show_name():
-    entered_name = user.get()
+# def show_name():
+#     entered_name = user.get()
 
-    # Save the name to a file
-    with open('name.txt', 'w') as file:
-        json.dump({'name': entered_name}, file)
+#     # Save the name to a file
+#     with open('name.txt', 'w') as file:
+#         json.dump({'name': entered_name}, file)
 
 home = tk.Tk()
 home.geometry('600x400')
-home.title('My Game')
+home.title('Shapey')
 
 start = tk.Label(home, text='Welcome to our game!', font=('Helvetica', 16),)
 start.pack(padx=10, pady=40)
@@ -49,16 +49,15 @@ start.pack(padx=10, pady=40)
 game_name=tk.Label(home, text='Shapey', font=('Arial', 30), fg='purple', bg='lightblue')
 game_name.pack(pady=10)
 
-name_label = tk.Label(home, text='Enter your name', font=('Comic Sans MC', 20))
-name_label.pack(pady=10)
+# name_label = tk.Label(home, text='Enter your name', font=('Comic Sans MC', 20))
+# name_label.pack(pady=10)
 
-user = tk.Entry(home, font=('Arial', 10))
-user.pack(pady=10)
+# user = tk.Entry(home, font=('Arial', 10))
+# user.pack(pady=10)
 
 enter_button=tk.Button(home, text='Play', font=('Helvetica', 15))
-enter_button.pack(pady=10)
+enter_button.pack(pady=40)
 
-print()
 
 # score_label = tk.Label(home, text='Enter score below', font=('Comic Sans MC', 20))
 # score_label.pack()
