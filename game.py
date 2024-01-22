@@ -20,7 +20,7 @@ window.title("Shapey | Quiz window")
 canvas = tk.Canvas(window, width=600, height=400)
 canvas.pack()
 
-# Link Turtle to the Canvas
+# Link Turtle to the canvas in tkinter
 screen = TurtleScreen(canvas)  # Link Turtle to the Canvas
 t = RawTurtle(screen)  # Create a RawTurtle instance
 
@@ -39,7 +39,7 @@ random_num_shapes = random.randint(1, 2)
 ## Draw functions ## (Scheewta part)
 t.speed(0)
 
-side_length = 50 #sample sidelength can change in the future
+side_length = 50 # Sample sidelength can change in the future
 radius = 25
 
 #Triangle
