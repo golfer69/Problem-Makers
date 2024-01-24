@@ -1,11 +1,21 @@
 import tkinter as tk
 
+def replay_game():
+    end_screen.destroy()
+    
+
+def enter_key(event):
+    replay_game()
+
 end_screen=tk.Tk()
 end_screen.geometry('600x400')
 end_screen.title('Shapey')
-table=tk.Label(end_screen, text=database)
+table=tk.Label(end_screen, text=(database))
 table.pack(pady=20)
+replay=tk.Button(end_screen, text=('Play Again'), font=('Arial', 20), command=replay_game)
+replay.pack(pady=50)
 
+end_screen.bind('<Return>', enter_key)
 end_screen.mainloop()
 
 
@@ -82,7 +92,6 @@ end_screen.mainloop()
 # # Show the leaderboard
 # show_leaderboard()
 
-end_screen.mainloop()
-print(database)
+
 
 
