@@ -1,37 +1,24 @@
 import tkinter as tk
 
+# def save_to_text_file(name='', score=0):
+#     with open('user_names.txt', 'a') as file:
+#         file.write(f"{name}\n")
+
+#     with open('user_scores.txt', 'a') as file:
+#         file.write(f"{score}\n")
+
+
+
 def play_game():
     user_name = user.get()
     if user_name:
         welcome_message = f"Welcome, {user_name}! Let's start playing Shapey!"
         start.config(text=welcome_message, font=('Helvetica', 16, 'italic'), fg='green')
-        global saved_name, score
+        global saved_name
         saved_name = user_name
-
-        # Check if the user already exists in the file
-        user_exists = False
-        with open('user_scores.txt', 'r') as file:
-            for line in file:
-                existing_user = line.strip().split(',')[0]
-                if existing_user == saved_name:
-                    user_exists = True
-                    break
-
-        # If the user already exists, load their previous score
-        if user_exists:
-            with open('user_scores.txt', 'r') as file:
-                for line in file:
-                    existing_user, existing_score = line.strip().split(',')
-                    if existing_user == saved_name:
-                        score = int(existing_score)
-                        break
-
-        # Save the name and initial score to a text file if the user doesn't exist
-        if not user_exists:
-            save_to_text_file(saved_name, score)
-
+        # # Save the name to a text file
+        # save_to_text_file(saved_name) 
         home.destroy()
-        create_home_screen()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
 

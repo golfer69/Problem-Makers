@@ -207,7 +207,7 @@ def check_answer(index):
         answered_shape = selected_answer # Store the correct shape
         print(f"Stored shape: {answered_shape}" ) 
         value_from_dict = shape_counter.get(answered_shape) # Gets the value of the shape
-        print(f"Value from dict: {value_from_dict}") 
+        print(f"Value from dict: {value_from_dict}")
     elif int(selected_answer) == value_from_dict:
       print(f"Value of correct shape is: {value_from_dict}" )
       score += 100
@@ -216,9 +216,15 @@ def check_answer(index):
        print(selected_answer)
        print(f"the ans is {current_question["correct"]}" )
 
-score_data = score
+def save_to_text_file(score):
+    with open('user_scores.txt', 'a') as file:
+        file.write(f"{score}\n")
+
+
+       
       
 
+      
 # Create answers button and respond to clicked button
 
 answer_buttons = [] # Create a list to append
