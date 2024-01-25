@@ -1,53 +1,49 @@
 import tkinter as tk
 
-# # database for leaderboard tracking
-# database_file='database.json'
-
-# def save_data():
-#     with open(database_file, 'w') as file:
-#         json.dump(database, file)
-
-# def load_data():
-#     try:
-#         with open(database_file, 'r') as file:
-#             data = json.load(file)
-#             return data
-#     except FileNotFoundError:
-#         return {}
-
-# database=load_data()
-
-# def save_name_to_file(file_path, name):
-#     with open(file_path, 'a') as file:
-#         file.write(name + '\n')
-
-# def read_names_from_file(file_path):
-#     try:
-#         with open(file_path, 'r') as file:
-#             names = [line.strip() for line in file.readlines()]
-#         return names
-#     except FileNotFoundError:
-#         return []
-
-database={}
 def play_game():
     user_name = user.get()
     if user_name:
         welcome_message = f"Welcome, {user_name}! Let's start playing Shapey!"
         start.config(text=welcome_message, font=('Helvetica', 16, 'italic'), fg='green')
-        global saved_name
+        global saved_name, score
         saved_name = user_name
-        database[saved_name] = {'name': saved_name, 'score': 0}
+
+        # Check if the user already exists in the file
+        user_exists = False
+        with open('user_scores.txt', 'r') as file:
+            for line in file:
+                existing_user = line.strip().split(',')[0]
+                if existing_user == saved_name:
+                    user_exists = True
+                    break
+
+        # If the user already exists, load their previous score
+        if user_exists:
+            with open('user_scores.txt', 'r') as file:
+                for line in file:
+                    existing_user, existing_score = line.strip().split(',')
+                    if existing_user == saved_name:
+                        score = int(existing_score)
+                        break
+
+        # Save the name and initial score to a text file if the user doesn't exist
+        if not user_exists:
+            save_to_text_file(saved_name, score)
+
         home.destroy()
+        create_home_screen()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
+
 
 # When press enter key, the game will start
 def enterkey(event):
     play_game()
+
+def create_home_screen():
+    global home, user  # Declare home and user as global variables
+
  
-saved_name=""
-names_file = "user_names.txt"
 home = tk.Tk()
 home.geometry('600x400')
 home.title('Shapey')

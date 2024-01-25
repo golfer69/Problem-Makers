@@ -13,10 +13,9 @@ import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 
 #homescreen initialisation
-# with open("sparecode.py") as f:
-# with open("homescreen.py") as f:   #   its broken so i put it in note 
-#     code = f.read()
-# exec(code)
+with open("homescreen.py") as f:
+    code = f.read()
+exec(code)
 
 # window
 window = tk.Tk() 
