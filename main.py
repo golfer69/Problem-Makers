@@ -17,9 +17,10 @@ with open("homescreen.py") as f:
     code = f.read()
 exec(code)
 
-# window and score
-window = tk.Tk()
+# window
+window = tk.Tk() 
 window.title("Shapey | Quiz window")
+
 # Create the Canvas for Turtle graphics
 canvas = tk.Canvas(window, width=600, height=400)
 canvas.pack()
@@ -28,24 +29,23 @@ canvas.pack()
 screen = TurtleScreen(canvas)  # Link Turtle to the Canvas
 t = RawTurtle(screen)  # Create a RawTurtle instance
 
-## Randomizer ##
+## Shapes and colors ##
 
-#Chooses types of shape for the question 
 shapes = ["Square", "Circle", "Triangle","Hexagon"]
 shape_1 = random.choice(shapes)
 shape_2 = random.choice(shapes)
 shape_3 = random.choice(shapes)
-chosen_shapes = [shape_1, shape_2, shape_3]
+chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the question 
 
-#Chooses how many shapes will be drawn 
-random_num_shapes = random.randint(1, 2)	
+colors = ['red', 'blue', 'green','purple','yellow']
+
+num_shapes = random.randint(1, 2)	#Chooses how many shapes will be drawn 
 
 ## Draw functions ## (Scheewta part)
-t.speed(0)
+t.speed(0) # makes it super fast
 
 def draw_triangle(color): #Triangle
     t.penup()
-    t.goto(-130,5)
     t.pencolor(color)
     t.fillcolor(color)
     t.begin_fill()
@@ -61,7 +61,7 @@ def draw_triangle(color): #Triangle
     t.hideturtle()
 
 def draw_square(color): #Square
-    t.goto(30,5)
+    t.penup
     t.pencolor(color)
     t.begin_fill()
     t.fillcolor(color)
@@ -97,73 +97,67 @@ def draw_hexagon(color):
     t.begin_fill()
     t.fillcolor(color)
     t.pendown()
-    for i in range (6):
+    for _ in range(6):
         t.forward(30)
         t.left(60)
-        t.forward(30)
-        t.left(60)
-        t.forward(30)
-        t.left(60)
-        t.forward(30)
-        t.left(60)
-        t.forward(30)
-        t.left(60)
-        t.forward(30)
-        t.left(60)
-        t.end_fill()
-        t.penup()
-        t.hideturtle()
+    t.end_fill()
+    t.penup()
+    t.hideturtle()
    
-     
-
-
-
-# Shapes counter ##
-
-shape_counter = {}  # Initialize an empty dictionary for counts
-
-def count(shape_counter, shape):
-    if shape in shape_counter:
-        shape_counter[shape] += 1  # Add one count if shape exists
-    else:
-        shape_counter[shape] = 1  # Add shape with count 1 if new
-    return shape_counter  # Return the updated dictionary
-def printcount():
-    print("Shape counts:")
-    for shape, count in shape_counter.items():
-     print(f"- {shape}: {count}")
-
 ## Coordinates ## (Scheewta part)
      
 base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
 
-
+coordinates_list = [base_coordinates1,base_coordinates2]
 ## Drawing ##
 
-def draw(chosen_shapes): #Call draw function
-    """Draws a random shape from the given list of shapes."""
-
-    shape = random.choice(chosen_shapes)
+def draw(shape,color): #Calls draw function
     if shape == "Triangle":
-        draw_triangle()
+        draw_triangle(color)
     elif shape == "Square":
-        draw_square()
+        draw_square(color)
     elif shape == "Circle":
-        draw_circle()
-    count(shape_counter, shape)
+        draw_circle(color)
+    elif shape == "Hexagon":
+       draw_hexagon(color)
 
-if random_num_shapes == 1: # Go to different coodirnates depend on the number of shapes
-  t.goto(0,0)
-  draw(chosen_shapes)
-elif random_num_shapes == 2:
-  t.goto(base_coordinates1[0], base_coordinates1[1])
-  draw(chosen_shapes)
-  t.goto(base_coordinates2[0], base_coordinates2[1])
-  draw(chosen_shapes)
-  
 ## Quiz ##
-  
+
+# Random generator
+shapes_data = {}
+
+for _ in range(num_shapes):
+    shape_type = random.choice(chosen_shapes)  # choose shape type
+
+    # Check if shape_type is already in shapes_data
+    if shape_type in shapes_data:
+      print("added 1 already")
+      shapes_data[shape_type]['amount'] += 1  # Increment count if shape exists
+    else:
+      color = random.choice(colors)  # choose color
+      # Add new shape_type to shapes_data with count 1
+      shapes_data[shape_type] = {'color': color, 'amount': 1}
+
+print(shape_type)
+
+print(shapes_data)
+# Draw shapes
+print(f"num_shapes: {num_shapes}")
+if len(shapes_data) == 1: # if there's only one shape
+  for shape_type in shapes_data:
+      for coordinate in coordinates_list[:num_shapes]:
+          print(f"Coordinate: {coordinate}")
+          color = shapes_data[shape_type]['color']
+          t.goto(coordinate)
+          draw(shape_type, color)
+else: 
+  for coordinate, shape_type in zip(coordinates_list[:num_shapes],shapes_data):
+      print(f"Coordinate: {coordinate}")
+      color = shapes_data[shape_type]['color']
+      t.goto(coordinate)
+      draw(shape_type, color)
+    
 # Questions
 
 def get_other_shapes(current_shape):
@@ -172,29 +166,31 @@ def get_other_shapes(current_shape):
     random.shuffle(available_shapes)
     return available_shapes[:2]  # Choose 2 other shapes for answer options
 
+def get_other_colors(current_color):
+    available_colors = list(colors)
+    available_colors.remove(current_color)
+    random.shuffle(available_colors)
+    return available_colors[:2]  # Choose 2 other shapes for answer options
+
 questions = [] 
-for index, (shape, count) in enumerate(shape_counter.items()):
-    other_shapes = get_other_shapes(shape)  # Call the function to get other shapes
+for index, (shape_type, shape_info) in enumerate(shapes_data.items()):
+    other_shapes = get_other_shapes(shape_type)  # Call the function to get other shapes
+    other_colors = get_other_colors(shape_info['color'])
     questions.append({
         "question": f"What is the #{index + 1} shape?",
-        "answers": [shape, *other_shapes],  # Unpack other_shapes here
-        "correct": [shape], 
+        "answers": [shape_type, *other_shapes],  # Unpack other_shapes here
+        "correct": [shape_type], 
     })
     questions.append({
-      "question": f"How many {shape} are there?",
+      "question": f"How many {shape_type} are there?",
       "answers": ["1","2","3"],
-      "correct": [str(count)],
+      "correct": [str(shape_info['amount'])],
     })
+    questions.append({
+      "question": f"What is the color of {shape_type}?",
+      "answers": [str(shape_info['color']),*(get_other_colors(shape_info['color']))],
+      "correct": (shape_info['color'])})
 
-# questions = [
-#     {"question": "What shape is it?", "answers": ["Triangle","Circle","Square"], 
-#      "correct": list(shape_counter.keys())},
-#     {"question": "How many are there?", "answers": ["1","2","3"], 
-#      "correct": list(shape_counter.values())}
-# ]
-
-# Function to show next question
-    
 def next_question():
     global question_index, current_question, answer_buttons
     print(f"question_index: {question_index}")
@@ -214,9 +210,8 @@ def next_question():
         for i, answer in enumerate(current_question["answers"]):
           answer_buttons[i].config(text=answer)
         question_index += 1
-
+        
 # Prints question 
-
 question_index = 0
 
 current_question = questions[question_index] # shows which question are they on 
@@ -230,18 +225,17 @@ question_label.pack(pady=20)
 score = 0
 def check_answer(index):
     selected_answer = answer_buttons[index].cget("text")
-    print("Answer checked")
     global score
     if selected_answer in current_question["correct"]:
         score += 100
         print(f"Score: {score}")
-        print(f"the answer is {selected_answer}")
         answered_shape = selected_answer # Store the correct shape
         print(f"Stored shape: {answered_shape}" ) 
-        value_from_dict = shape_counter.get(answered_shape) # Gets the value of the shape
-        print(f"Value from dict: {value_from_dict}") 
-    elif int(selected_answer) == value_from_dict:
-      print(f"Value of correct shape is: {value_from_dict}" )
+    elif int(selected_answer) == shape_amount:
+      for shape_type, shape_info in shapes_data.items():
+        if shape_type == answered_shape:
+          shape_amount = shape_info['amount'] # Gets the value of the correct shape
+      print(f"Value from dict: {shape_amount}") 
       score += 100
       print(f"Score: {score}")
     else:
@@ -260,8 +254,6 @@ end_label = tk.Label(window, text="")
 end_label.pack()
 
 window.mainloop()
-printcount()
-
 
 #endscreen initialisation
 with open("endscreen.py") as f:
