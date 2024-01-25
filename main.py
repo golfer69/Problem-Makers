@@ -9,12 +9,12 @@
 # Phones: +60 18-355 5944 | +60 16-207 2813 | +60 17-779 3199
 # *********************************************************
 import random
-import turtle
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 
 #homescreen initialisation
 with open("sparecode.py") as f:
+with open("homescreen.py") as f:
     code = f.read()
 exec(code)
 
@@ -32,7 +32,7 @@ t = RawTurtle(screen)  # Create a RawTurtle instance
 ## Randomizer ##
 
 #Chooses types of shape for the question 
-shapes = ["Square", "Circle", "Triangle"]
+shapes = ["Square", "Circle", "Triangle","Hexagon"]
 shape_1 = random.choice(shapes)
 shape_2 = random.choice(shapes)
 shape_3 = random.choice(shapes)
@@ -44,41 +44,76 @@ random_num_shapes = random.randint(1, 2)
 ## Draw functions ## (Scheewta part)
 t.speed(0)
 
-side_length = 50 # Sample sidelength can change in the future
-radius = 25
+def draw_triangle(color): #Triangle
+    t.penup()
+    t.goto(-130,5)
+    t.pencolor(color)
+    t.fillcolor(color)
+    t.begin_fill()
+    t.pendown()
+    t.forward(60)
+    t.left(120)
+    t.forward(60)
+    t.left(120)
+    t.forward(60)
+    t.left(120)
+    t.end_fill()
+    t.penup()
+    t.hideturtle()
 
-#Triangle
+def draw_square(color): #Square
+    t.goto(30,5)
+    t.pencolor(color)
+    t.begin_fill()
+    t.fillcolor(color)
+    t.pendown()
+    for i in range (4):
+        t.forward(50)
+        t.left(90)
+        t.forward(50)
+        t.left(90)
+        t.forward(50)
+        t.left(90)
+        t.forward(50)
+        t.left(90)
+        t.end_fill()
+        t.penup()
+        t.hideturtle()
 
-def draw_triangle():
-  #dont change the function name, just the code below
-  t.penup()
-  t.pendown()
-  t.forward(side_length)
-  t.left(120)
-  t.forward(side_length)
-  t.left(120)
-  t.forward(side_length)
-  t.penup()
-  t.hideturtle()
-#Square
-def draw_square():
-  t.penup()
-  t.pendown()
-  for _ in range(4):
-    t.forward(side_length)
-    t.left(90)
-  t.penup()
-  t.hideturtle()
-#Cicle 
-def draw_circle():
-  t.penup()
-  t.pendown()
-  t.end_fill()
-  t.circle(radius)
-  t.penup()
-  t.hideturtle()
-  
+def draw_circle(color): #Circle 
+    r=30
+    t.penup()
+    t.pendown()
+    t.pencolor(color)
+    t.begin_fill()
+    t.fillcolor(color)
+    t.circle(r)
+    t.end_fill()
+    t.penup()
+    t.hideturtle()
 
+def draw_hexagon(color):
+    t.penup()
+    t.pencolor(color)
+    t.begin_fill()
+    t.fillcolor(color)
+    t.pendown()
+    for i in range (6):
+        t.forward(30)
+        t.left(60)
+        t.forward(30)
+        t.left(60)
+        t.forward(30)
+        t.left(60)
+        t.forward(30)
+        t.left(60)
+        t.forward(30)
+        t.left(60)
+        t.forward(30)
+        t.left(60)
+        t.end_fill()
+        t.penup()
+        t.hideturtle()
    
      
 
@@ -180,7 +215,7 @@ def next_question():
         for i, answer in enumerate(current_question["answers"]):
           answer_buttons[i].config(text=answer)
         question_index += 1
-  
+\
 # Prints question 
 
 question_index = 0
