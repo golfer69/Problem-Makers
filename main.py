@@ -13,7 +13,6 @@ import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 
 #homescreen initialisation
-with open("sparecode.py") as f:
 with open("homescreen.py") as f:
     code = f.read()
 exec(code)
@@ -215,7 +214,7 @@ def next_question():
         for i, answer in enumerate(current_question["answers"]):
           answer_buttons[i].config(text=answer)
         question_index += 1
-\
+
 # Prints question 
 
 question_index = 0
@@ -234,7 +233,7 @@ def check_answer(index):
     print("Answer checked")
     global score
     if selected_answer in current_question["correct"]:
-        score += 1
+        score += 100
         print(f"Score: {score}")
         print(f"the answer is {selected_answer}")
         answered_shape = selected_answer # Store the correct shape
@@ -243,7 +242,7 @@ def check_answer(index):
         print(f"Value from dict: {value_from_dict}") 
     elif int(selected_answer) == value_from_dict:
       print(f"Value of correct shape is: {value_from_dict}" )
-      score += 1
+      score += 100
       print(f"Score: {score}")
     else:
        print(selected_answer)

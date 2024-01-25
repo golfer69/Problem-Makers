@@ -192,13 +192,16 @@ question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
 
 # Check ans and record score
+
+
+
 score = 0
 def check_answer(index):
     selected_answer = answer_buttons[index].cget("text")
     print("Answer checked")
     global score
     if selected_answer in current_question["correct"]:
-        score += 1
+        score += 100
         print(f"Score: {score}")
         print(f"the answer is {selected_answer}")
         answered_shape = selected_answer # Store the correct shape
@@ -207,11 +210,14 @@ def check_answer(index):
         print(f"Value from dict: {value_from_dict}") 
     elif int(selected_answer) == value_from_dict:
       print(f"Value of correct shape is: {value_from_dict}" )
-      score += 1
+      score += 100
       print(f"Score: {score}")
     else:
        print(selected_answer)
        print(f"the ans is {current_question["correct"]}" )
+
+score_data = score
+      
 
 # Create answers button and respond to clicked button
 
