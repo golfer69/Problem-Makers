@@ -1,35 +1,24 @@
 import tkinter as tk
+import sqlite3
 
-# # database for leaderboard tracking
-# database_file='database.json'
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
 
-# def save_data():
-#     with open(database_file, 'w') as file:
-#         json.dump(database, file)
+import sqlite3
 
-# def load_data():
-#     try:
-#         with open(database_file, 'r') as file:
-#             data = json.load(file)
-#             return data
-#     except FileNotFoundError:
-#         return {}
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
 
-# database=load_data()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_data(
+                Name PRIMARY KEY,
+                Score INTEGER
+)             
+                """)
 
-# def save_name_to_file(file_path, name):
-#     with open(file_path, 'a') as file:
-#         file.write(name + '\n')
 
-# def read_names_from_file(file_path):
-#     try:
-#         with open(file_path, 'r') as file:
-#             names = [line.strip() for line in file.readlines()]
-#         return names
-#     except FileNotFoundError:
-#         return []
 
-database={}
+
 def play_game():
     user_name = user.get()
     if user_name:
@@ -37,20 +26,25 @@ def play_game():
         start.config(text=welcome_message, font=('Helvetica', 16, 'italic'), fg='green')
         global saved_name
         saved_name = user_name
-        database[saved_name] = {'name': saved_name, 'score': 0}
+        cursor.execute("""INSERT INTO user_data (Name) 
+                       VALUES (?)""", (saved_name,))
+        conn.commit()
         home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
 
+
 # When press enter key, the game will start
 def enterkey(event):
     play_game()
+
+def create_home_screen():
+    global home, user  # Declare home and user as global variables
+
  
-saved_name=""
-names_file = "user_names.txt"
 home = tk.Tk()
 home.geometry('600x400')
-home.title('Shapey')
+home.title('Shapey | Homescree')
 
 start = tk.Label(home, text='Welcome to our game!', font=('Helvetica', 16))
 start.pack(padx=10, pady=40)
@@ -69,6 +63,8 @@ play_button.pack(pady=40)
 
 # Bind enter key to enterkey function
 home.bind('<Return>', enterkey)
+
+
 
 home.mainloop()
 
