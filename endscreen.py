@@ -19,7 +19,7 @@ leaderboard_data=leaderboard()
 
 end_screen = tk.Tk()
 end_screen.geometry('1500x1000')
-end_screen.title('Shapey')
+end_screen.title('Shapey | Endscreen')
 for index, (name, score) in enumerate(leaderboard_data, start=1):
     label = tk.Label(end_screen, text=f"{index}. {name}: {score}", font=('Arial', 16))
     label.pack(pady=10)

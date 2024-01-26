@@ -4,6 +4,21 @@ import sqlite3
 conn=sqlite3.Connection('user_data.db')
 cursor=conn.cursor()
 
+import sqlite3
+
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_data(
+                Name PRIMARY KEY,
+                Score INTEGER
+)             
+                """)
+
+
+
+
 def play_game():
     user_name = user.get()
     if user_name:
@@ -29,7 +44,7 @@ def create_home_screen():
  
 home = tk.Tk()
 home.geometry('600x400')
-home.title('Shapey')
+home.title('Shapey | Homescreen')
 
 start = tk.Label(home, text='Welcome to our game!', font=('Helvetica', 16))
 start.pack(padx=10, pady=40)
