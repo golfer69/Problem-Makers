@@ -16,19 +16,19 @@ import sqlite3
 conn=sqlite3.Connection('user_data.db')
 cursor=conn.cursor()
 
-# cursor.execute("""
-# CREATE TABLE IF NOT EXISTS user_data(
-#                 Name PRIMARY KEY,
-#                 Score INTEGER
-# )             
-#                 """)
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_data(
+                Name PRIMARY KEY,
+                Score INTEGER
+)             
+                """)
 
 
 
-#homescreen initialisation
-# with open("homescreen.py") as f:
-#     code = f.read()
-# exec(code)
+# homescreen initialisation
+with open("homescreen.py") as f:
+    code = f.read()
+exec(code)
 
 # window
 window = tk.Tk() 
@@ -261,10 +261,10 @@ def check_answer(index):
       print(f"Score: {score}")
     score_label.config(text= f"Score: {score}") # update the score 
     
-#insert score to database
-# cursor.execute("""INSERT INTO user_data (Score) 
-#                        VALUES (?)""", (score,))
-# conn.commit()
+# insert score to database
+cursor.execute("""INSERT INTO user_data (Score) 
+                       VALUES (?)""", (score,))
+conn.commit()
 
 
 
@@ -277,11 +277,11 @@ for index, answers in enumerate(current_question["answers"]):
   button.pack(pady=5)
   answer_buttons.append(button)
 
-end_label = tk.Label(window, text=score)
+end_label = tk.Label(window, text='')
 end_label.pack()
 window.mainloop()
 
-#endscreen initialisation
-# with open("endscreen.py") as f:
-#     code = f.read()
-# exec(code)
+# endscreen initialisation
+with open("endscreen.py") as f:
+    code = f.read()
+exec(code)

@@ -44,7 +44,7 @@ def create_home_screen():
  
 home = tk.Tk()
 home.geometry('600x400')
-home.title('Shapey | Homescreen')
+home.title('Shapey | Homescree')
 
 start = tk.Label(home, text='Welcome to our game!', font=('Helvetica', 16))
 start.pack(padx=10, pady=40)
