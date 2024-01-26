@@ -11,17 +11,18 @@ CREATE TABLE IF NOT EXISTS user_data(
 )             
                 """)
 
+
+
 cursor.execute("""
 INSERT OR REPLACE INTO user_data 
                (Name, Score) 
-               VALUES (?, ?)", 
-               (user_name, score))
+               VALUES
+               (user_name, score)
+               )
                """)
 
 
-cursor.execute('SELECT * FROM user_data')
-data=cursor.fetchall()
-print(data)
+
 
 conn.commit()
 conn.close()

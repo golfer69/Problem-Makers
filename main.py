@@ -11,6 +11,10 @@
 import random
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
+import sqlite3
+
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
 
 #homescreen initialisation
 with open("homescreen.py") as f:
@@ -241,6 +245,13 @@ def check_answer(index):
     else:
        print(selected_answer)
        print(f"the ans is {current_question["correct"]}" )
+
+cursor.execute("""INSERT INTO user_data (Score) 
+                       VALUES (?)""", (score,))
+conn.commit()
+
+
+
 
 # Create answers button and respond to clicked button
 

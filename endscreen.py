@@ -1,29 +1,28 @@
 import tkinter as tk
+import sqlite3
+
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
+
+def leaderboard():
+    cursor.execute('SELECT * FROM user_data ORDER BY Score DESC')  # Order by score in descending order
+    return cursor.fetchall()
+
 
 def replay_game():
     end_screen.destroy()
-    
 
 def enter_key(event):
     replay_game()
 
-
-user_dict = {}
-
-# Open and read the text file
-with open('user_names.txt', 'r') as file_names, open('user_scores.txt', 'r') as file_scores:
-    for name, score in zip(file_names, file_scores):
-        user_name = name.strip()
-        user_scores = int(score)
-        user_dict[user_name] = user_scores
-
-
+leaderboard_data=leaderboard()
 
 end_screen = tk.Tk()
 end_screen.geometry('1500x1000')
 end_screen.title('Shapey')
-table = tk.Label(end_screen, text=str(user_dict))
-table.pack(pady=20)
+for index, (name, score) in enumerate(leaderboard_data, start=1):
+    label = tk.Label(end_screen, text=f"{index}. {name}: {score}", font=('Arial', 16))
+    label.pack(pady=10)
 replay = tk.Button(end_screen, text=('Play Again'), font=('Arial', 20), command=replay_game)
 replay.pack(pady=50)
 

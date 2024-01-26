@@ -1,13 +1,8 @@
 import tkinter as tk
+import sqlite3
 
-# def save_to_text_file(name='', score=0):
-#     with open('user_names.txt', 'a') as file:
-#         file.write(f"{name}\n")
-
-#     with open('user_scores.txt', 'a') as file:
-#         file.write(f"{score}\n")
-
-
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
 
 def play_game():
     user_name = user.get()
@@ -16,8 +11,9 @@ def play_game():
         start.config(text=welcome_message, font=('Helvetica', 16, 'italic'), fg='green')
         global saved_name
         saved_name = user_name
-        # # Save the name to a text file
-        # save_to_text_file(saved_name) 
+        cursor.execute("""INSERT INTO user_data (Name) 
+                       VALUES (?)""", (saved_name,))
+        conn.commit()
         home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
@@ -52,6 +48,8 @@ play_button.pack(pady=40)
 
 # Bind enter key to enterkey function
 home.bind('<Return>', enterkey)
+
+
 
 home.mainloop()
 
