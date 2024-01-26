@@ -4,19 +4,7 @@ import sqlite3
 conn=sqlite3.Connection('user_data.db')
 cursor=conn.cursor()
 
-import sqlite3
-
-conn=sqlite3.Connection('user_data.db')
-cursor=conn.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS user_data(
-                Name PRIMARY KEY,
-                Score INTEGER
-)             
-                """)
-
-
+cursor.execute("""CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
 
 
 def play_game():
@@ -29,6 +17,7 @@ def play_game():
         cursor.execute("""INSERT INTO user_data (Name) 
                        VALUES (?)""", (saved_name,))
         conn.commit()
+        conn.close()
         home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')

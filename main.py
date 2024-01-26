@@ -13,15 +13,9 @@ import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import sqlite3
 
-conn=sqlite3.Connection('user_data.db')
-cursor=conn.cursor()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS user_data(
-                Name PRIMARY KEY,
-                Score INTEGER
-)             
-                """)
+
+
 
 
 
@@ -204,8 +198,10 @@ for index, (shape_type, shape_info) in enumerate(shapes_data.items()):
       "answers": [str(shape_info['color']),*(get_other_colors(shape_info['color']))],
       "correct": (shape_info['color'])})
 
+game_finished= False
+
 def next_question():
-    global question_index, current_question, answer_buttons
+    global question_index, current_question, answer_buttons, game_finished
     print(f"question_index: {question_index}")
     if question_index == 0: #To skip to the next question (only applies for first question)
         current_question = questions[question_index]
@@ -214,6 +210,7 @@ def next_question():
         question_index += 1
         next_question()
     elif question_index == len(questions):  # end of quiz
+      game_finished= True
       for button in answer_buttons:
         button.pack_forget() # Hide answer buttons temporarily
       question_label.config(text="") # clear labels
@@ -259,12 +256,33 @@ def check_answer(index):
       print(f"Value from dict: {shape_amount}") 
       score += 100
       print(f"Score: {score}")
-    score_label.config(text= f"Score: {score}") # update the score 
-    
-# insert score to database
-cursor.execute("""INSERT INTO user_data (Score) 
+    # Insert score to database after the game finishes
+    if game_finished:
+      conn = sqlite3.connect('user_data.db')
+      cursor = conn.cursor()
+      cursor.execute("""
+      CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
+      # Insert the score into the database
+      cursor.execute("""INSERT INTO user_data (Score) 
                        VALUES (?)""", (score,))
-conn.commit()
+      conn.commit()
+      conn.close()
+    score_label.config(text= f"Score: {score}") # update the score
+
+
+
+
+# def insert_score_to_database(score):
+#     # Connect to the database
+#     conn = sqlite3.connect('user_data.db')
+#     cursor = conn.cursor()
+#     cursor.execute("""
+#     CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
+#     # Insert the score into the database
+#     cursor.execute("""INSERT INTO user_data (Score) 
+#                           VALUES (?)""", (score,))
+#     conn.commit()
+#     conn.close()
 
 
 
@@ -277,8 +295,13 @@ for index, answers in enumerate(current_question["answers"]):
   button.pack(pady=5)
   answer_buttons.append(button)
 
+def end_game():
+   window.destroy()
+
 end_label = tk.Label(window, text='')
 end_label.pack()
+end_button=tk.Button(window, text='Done yet?', command=end_game)
+end_button.pack()
 window.mainloop()
 
 # endscreen initialisation
