@@ -191,7 +191,7 @@ for index, (shape_type, shape_info) in enumerate(shapes_data.items()):
       "correct": [str(shape_info['amount'])],
     })
     questions.append({
-      "question": f"What is the color of {shape_type}?",
+      "question": f"What is the color of #{index + 1} shape?",
       "answers": [str(shape_info['color']),*(get_other_colors(shape_info['color']))],
       "correct": (shape_info['color'])})
 
@@ -202,10 +202,13 @@ def next_question():
         current_question = questions[question_index]
         question_label.config(text=current_question["question"]) #configure the label for question
         question_no_label.config(text="Question #"+ str((question_index+1))) #configure number of the question
-          # answer_buttons[i].config(text=answer)
         question_index += 1
         next_question()
-    elif question_index == len(questions):  # Show score and end quiz  
+    elif question_index == len(questions):  # end of quiz
+      for button in answer_buttons:
+        button.pack_forget() # Hide answer buttons temporarily
+      question_label.config(text="") # clear labels
+      question_no_label.config(text="")
       end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
     else:
         current_question = questions[question_index]
@@ -227,14 +230,19 @@ question_label.pack(pady=20)
 
 # Check ans and record score
 score = 0
+score_label = tk.Label(window, text="")
+score_label.pack()
+score_label.place(x=10, y=410)
+
 def check_answer(index):
-    selected_answer = answer_buttons[index].cget("text")
+    selected_answer = answer_buttons[index].cget("text") # get the answer button's text 
     global score
     if selected_answer in current_question["correct"]:
         score += 100
-        print(f"Score: {score}")
         answered_shape = selected_answer # Store the correct shape
         print(f"Stored shape: {answered_shape}" ) 
+    elif selected_answer != current_question['correct']: # skip next question if wrong ans
+      score += 0
     elif int(selected_answer) == shape_amount:
       for shape_type, shape_info in shapes_data.items():
         if shape_type == answered_shape:
@@ -242,9 +250,8 @@ def check_answer(index):
       print(f"Value from dict: {shape_amount}") 
       score += 100
       print(f"Score: {score}")
-    else:
-       print(selected_answer)
-       print(f"the ans is {current_question["correct"]}" )
+    score_label.config(text= f"Score: {score}") # update the score 
+    
 
 cursor.execute("""INSERT INTO user_data (Score) 
                        VALUES (?)""", (score,))
