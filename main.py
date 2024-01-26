@@ -41,48 +41,6 @@ chosen_shapes = [shape_1, shape_2, shape_3]
 #Chooses how many shapes will be drawn 
 random_num_shapes = random.randint(1, 2)	
 
-## Draw functions ## (Scheewta part)
-t.speed(0)
-
-side_length = 50 # Sample sidelength can change in the future
-radius = 25
-
-#Triangle
-
-def draw_triangle():
-  #dont change the function name, just the code below
-  t.penup()
-  t.pendown()
-  t.forward(side_length)
-  t.left(120)
-  t.forward(side_length)
-  t.left(120)
-  t.forward(side_length)
-  t.penup()
-  t.hideturtle()
-#Square
-def draw_square():
-  t.penup()
-  t.pendown()
-  for _ in range(4):
-    t.forward(side_length)
-    t.left(90)
-  t.penup()
-  t.hideturtle()
-#Cicle 
-def draw_circle():
-  t.penup()
-  t.pendown()
-  t.end_fill()
-  t.circle(radius)
-  t.penup()
-  t.hideturtle()
-  
-
-   
-     
-
-
 
 # Shapes counter ##
 

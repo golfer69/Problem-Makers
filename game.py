@@ -83,7 +83,6 @@ def draw_circle():
      
 
 
-
 # Shapes counter ##
 
 shape_counter = {}  # Initialize an empty dictionary for counts
@@ -129,6 +128,13 @@ elif random_num_shapes == 2:
   draw(chosen_shapes)
   
 ## Quiz ##
+<<<<<<< Updated upstream
+=======
+
+
+
+
+>>>>>>> Stashed changes
 # Questions
 
 def get_other_shapes(current_shape):
