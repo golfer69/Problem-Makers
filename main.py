@@ -156,16 +156,7 @@ base_coordinates3 = (-100, 0)
 
 coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3] 
 
-random_num_shapes=random.randint(1,2)
-
-
-if random_num_shapes ==1 :#go to different coordinates depending on the number of shapes
-   t.goto(0,0)
-
-
-
-
-
+num_shapes=random.randint(1,3)
 
 ## Drawing ##
 
@@ -210,7 +201,6 @@ ScoreL = tk.Label(window, text=score)
 ScoreL.pack()
 
 window.after(1000, update)  # Start the update 1 second later
-window.mainloop()
 
 ## Quiz ##
 
@@ -227,20 +217,6 @@ for coordinate in coordinates_list[:num_shapes]:
 
 print(shapes_data)
 
-#   for shape_type in shapes_data:
-#       for coordinate in coordinates_list[:num_shapes]:
-#           print(f"Coordinate: {coordinate}")
-#           color = shapes_data[shape_type]['color']
-#           t.goto(coordinate)
-#           draw(shape_type, color)
-# else: 
-#   for coordinate, shape_type in zip(coordinates_list[:num_shapes],shapes_data):
-#       print(f"Coordinate: {coordinate}")
-#       color = shapes_data[shape_type]['color']
-#       t.goto(coordinate)
-#       draw(shape_type, color)
-
-    
 # Questions
 
 def get_other_shapes(current_shape):
