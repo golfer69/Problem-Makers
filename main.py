@@ -43,6 +43,14 @@ colors = ['red', 'blue', 'green','purple','yellow']
 
 num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
 
+generated_shapes ={}
+def generate_shape(): # Generate shape & their own color 
+  for _ in range(num_shapes): #  generate shape_type and color of it
+    shape_type = random.choice(chosen_shapes) 
+    color = random.choice(colors)
+    generated_shapes[shape_type] = {"color": color}
+
+generate_shape()
 ## Draw functions ## (Scheewta part)
 t.speed(0) # makes it super fast
 
@@ -129,21 +137,15 @@ base_coordinates3 = (-100, 0)
 coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3]
 ## Drawing ##
 
-shapes_data = {} # initialise a dict for storing
-
-def generate_shape(): #generate shape & their color and count as well
-  for _ in range(num_shapes): #  generate shape_type and color of it
-    shape_type = random.choice(chosen_shapes) 
-    color = random.choice(colors)
-    shapes_data[shape_type] = {"color": color, "amount": 0}
-
-generate_shape()
+shapes_data = {} # initialise a dict for counting
 
 def count(shape):
   print(shape)
   if shape in shapes_data: # Check if shape_type is already in shapes_data
       shapes_data[shape]["amount"] += 1  # add one if it exists
       print(shapes_data[shape]["amount"])
+  else:
+     shapes_data[shape]= {"color": shape_color, "amount": 1}
 
 def draw(coordinate,shape,color): #Calls draw function
   t.goto(coordinate)
@@ -162,12 +164,12 @@ def draw(coordinate,shape,color): #Calls draw function
 
 print(f"num_shapes: {num_shapes}")
 
-# Draw shapes
+# Draw the shapes
 
 for coordinate in coordinates_list[:num_shapes]:
   print(f"Drawing on coordinate: {coordinate}")
-  shape = random.choice(list(shapes_data.keys()))
-  shape_color = shapes_data[shape]["color"]
+  shape = random.choice(list(generated_shapes.keys()))
+  shape_color = generated_shapes[shape]["color"]
   draw(coordinate, shape, shape_color)
   count(shape)
 
@@ -296,6 +298,7 @@ def check_answer(index):
 
 
 
+
 # def insert_score_to_database(score):
 #     # Connect to the database
 #     conn = sqlite3.connect('user_data.db')
@@ -328,6 +331,9 @@ end_label.pack()
 end_button=tk.Button(window, text='Done yet?', command=end_game)
 end_button.pack_forget()
 window.mainloop()
+
+saved_score = score
+print(f"saved score from main.py : {saved_score}")
 
 # endscreen initialisation
 with open("endscreen.py") as f:

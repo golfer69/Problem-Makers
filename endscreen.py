@@ -1,6 +1,9 @@
 import tkinter as tk
 import sqlite3
 
+from main import saved_score 
+print(f"imported saved_score: {saved_score}")
+
 conn=sqlite3.Connection('user_data.db')
 cursor=conn.cursor()
 
@@ -16,7 +19,7 @@ def enter2_key(event):
     replay_game()
 
 leaderboard_data=leaderboard()
-
+print(leaderboard_data)
 end_screen = tk.Tk()
 end_screen.geometry('1500x1000')
 end_screen.title('Shapey | Endscreen')
