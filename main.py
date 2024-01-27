@@ -12,9 +12,6 @@ import random
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import sqlite3
-<<<<<<< Updated upstream
-from itertools import cycle
-=======
 
 
 conn=sqlite3.Connection('user_data.db')
@@ -28,7 +25,6 @@ CREATE TABLE IF NOT EXISTS user_data(
                 """)
 
 
->>>>>>> Stashed changes
 
 # homescreen initialisation
 with open("homescreen.py") as f: 
@@ -64,22 +60,10 @@ colors = ['red', 'blue', 'green','purple','yellow']
 
 num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
 
-<<<<<<< Updated upstream
-generated_shapes ={}
-def generate_shape(): # Generate shape & their own color 
-  for _ in range(num_shapes): #  generate shape_type and color of it
-    shape_type = random.choice(chosen_shapes) 
-    color = random.choice(colors)
-    generated_shapes[shape_type] = {"color": color}
-
-generate_shape()
-## Draw functions ## (Scheewta part)
-=======
 
 
 
 ## Draw functions ## (Schweeta part)
->>>>>>> Stashed changes
 t.speed(0) # makes it super fast
 
 def draw_triangle(color): #Triangle
@@ -163,9 +147,6 @@ base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
 base_coordinates3 = (-100, 0)
 
-<<<<<<< Updated upstream
-coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3]
-=======
 coordinates_list = [base_coordinates1,base_coordinates2]
 
 
@@ -192,7 +173,6 @@ window.after(1000, update) # start the update 1 second later
 window.mainloop()
 
 
->>>>>>> Stashed changes
 ## Drawing ##
 
 shapes_data = {} # initialise a dict for counting
@@ -394,12 +374,6 @@ end_button=tk.Button(window, text='Done yet?', command=end_game)
 end_button.pack_forget()
 window.mainloop()
 
-<<<<<<< Updated upstream
-saved_score = score
-print(f"saved score from main.py : {saved_score}")
-=======
-
->>>>>>> Stashed changes
 
 # endscreen initialisation
 with open("endscreen.py") as f:
