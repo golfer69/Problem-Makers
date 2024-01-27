@@ -47,7 +47,6 @@ t = RawTurtle(screen)  # Create a RawTurtle instance
 
 
 
-
 ## Shapes and colors ##
 
 shapes = ["Circle","Triangle","Square","Pentagon","Hexagon"]
@@ -58,7 +57,7 @@ chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the ques
 
 colors = ['red', 'blue', 'green','purple','yellow']
 
-num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
+num_shapes = random.randint(1, 6)	#Chooses how many shapes will be drawn 
 
 generated_shapes ={}
 def generate_shape(): # Generate shape & their own color 
@@ -145,35 +144,23 @@ def draw_hexagon(color): # Hexagon
     t.end_fill()
     t.penup()
     t.hideturtle()
-   
+  
 
 
 ## Coordinates ## (Schweeta part)
     
 
-base_coordinates1 = (0, 0)
-base_coordinates2 = (100, 0)
-base_coordinates3 = (-100, 0)
-base_coordinates4 = (50,0)
-base_coordinates5 = (-50,0)
-base_coordinates6 = (150,0)
+base_coordinates1 = (-200, 50)
+base_coordinates2 = (-100,50)
+base_coordinates3 = (0,50)
+base_coordinates4 = (-200,-50)
+base_coordinates5 = (-100,-50)
+base_coordinates6 = (0,-50)
 
 coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3,base_coordinates4,base_coordinates5,base_coordinates6] 
 
-
-num_shapes=random.randint(1,3)
-
 ## Drawing ##
 
-shapes_data = {} # initialise a dict for counting
-
-def count(shape):
-  print(shape)
-  if shape in shapes_data: # Check if shape_type is already in shapes_data
-      shapes_data[shape]["amount"] += 1  # add one if it exists
-      print(shapes_data[shape]["amount"])
-  else:
-     shapes_data[shape]= {"color": shape_color, "amount": 1}
 
 def draw(coordinate,shape,color): #Calls draw function
   t.goto(coordinate)
@@ -184,43 +171,36 @@ def draw(coordinate,shape,color): #Calls draw function
   elif shape == "Circle":
         draw_circle(color)
   elif shape == "Pentagon":
-       draw_pentagon(color)
+      draw_pentagon(color)
   elif shape == "Hexagon":
-       draw_hexagon(color)
+      draw_hexagon(color)
 
-
-
-#timer attempt 
-limit = 10
-score = 0
-
-def update():
-    global score
-    score += 1
-    ScoreL.configure(text=score)
-    if score < limit:
-        # Schedule next update 1 second later
-        window.after(1000, update)
-
-ScoreL = tk.Label(window, text=score)
-ScoreL.pack()
-
-window.after(1000, update)  # Start the update 1 second later
-
-## Quiz ##
-
-print(f"num_shapes: {num_shapes}")
+shapes_data = {} # initialise a dict for counting
 
 # Draw the shapes
+def drawing():
+  for coordinate in coordinates_list[:num_shapes]:
+    print(f"Drawing on coordinate: {coordinate}")
+    shape = random.choice(list(generated_shapes.keys()))
+    shape_color = generated_shapes[shape]["color"]
+    t.penup()
+    draw(coordinate, shape, shape_color)
+    shape_color = generated_shapes[shape]["color"]
 
-for coordinate in coordinates_list[:num_shapes]:
-  print(f"Drawing on coordinate: {coordinate}")
-  shape = random.choice(list(generated_shapes.keys()))
-  shape_color = generated_shapes[shape]["color"]
-  draw(coordinate, shape, shape_color)
-  count(shape)
+    print(shape)
 
-print(shapes_data)
+    if shape in shapes_data: # Check if shape_type is already in shapes_data
+      shapes_data[shape]["amount"] += 1  # add one if it exists
+      print(shapes_data[shape]["amount"])
+    else:
+      shapes_data[shape]= {"color": shape_color, "amount": 1}
+  
+  print(f"num_shapes: {num_shapes}")
+  print(shapes_data)
+
+drawing()
+
+## Quiz ##
 
 # Questions
 
@@ -236,10 +216,17 @@ def get_other_colors(current_color):
     random.shuffle(available_colors)
     return available_colors[:2]  # Choose 2 other shapes for answer options
 
+def get_other_number(answer):
+    available_numbers = [1,2,3,4,5,6]
+    available_numbers.remove(answer)
+    random.shuffle(available_numbers)
+    return available_numbers[:2]  # Choose 2 other shapes for answer options
+
 questions = [] 
 for index, (shape_type, shape_info) in enumerate(shapes_data.items()):
     other_shapes = get_other_shapes(shape_type)  # Call the function to get other shapes
     other_colors = get_other_colors(shape_info['color'])
+    other_numbers= get_other_number(shape_info['amount'])
     questions.append({
         "question": f"What is the #{index + 1} shape?",
         "answers": [shape_type, *other_shapes],  # Unpack other_shapes here
@@ -247,7 +234,7 @@ for index, (shape_type, shape_info) in enumerate(shapes_data.items()):
     })
     questions.append({
       "question": f"How many {shape_type} are there?",
-      "answers": ["1","2","3"],
+      "answers": [str(shape_info['amount']), *other_numbers],
       "correct": [str(shape_info['amount'])],
     })
     questions.append({
@@ -282,6 +269,7 @@ def next_question():
         for i, answer in enumerate(current_question["answers"]):
           answer_buttons[i].config(text=answer)
         question_index += 1
+
         
 # Prints question 
 question_index = 0
@@ -294,7 +282,6 @@ question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
 
 #Freeze powerup
-limit = 30
 current_time = 0
 freeze = "yes"
 
@@ -322,12 +309,12 @@ score_label.place(x=10, y=410)
 powerup_2x=False
 powerup_gift=False
 def activate_2x():
-   if score>=400:
+  if score>=400:
     powerup_2x=True
 
 def activate_gift():
-   score+=200
-   powerup_gift=True
+  score+=200
+  powerup_gift=True
       
 
 
@@ -353,10 +340,10 @@ def check_answer(index):
       score += 100
       print(f"Score: {score}")
       if score>=1000:
-         powerup_gift=False
-         
-         
-         
+        powerup_gift=False
+        
+        
+        
     # Insert score to database after the game finishes
     # if game_finished==True:
     #   conn = sqlite3.connect('user_data.db')
@@ -370,7 +357,22 @@ def check_answer(index):
     #   conn.close()
     score_label.config(text= f"Score: {score}") # update the score
 
+# Timer 
+limit = 30
+time = 0
 
+def update():
+    global time
+    time += 1
+    ScoreL.configure(text=f"Time: {time}")
+    if time < limit:
+        # Schedule next update 1 second later
+        window.after(1000, update)
+
+ScoreL = tk.Label(window, text=f"Time: {time}")
+ScoreL.pack()
+
+window.after(1000, update)  # Start the update 1 second later
 
 
 
@@ -402,13 +404,14 @@ for index, answers in enumerate(current_question['answers']):
 double_score =tk.Button(window, text=('2x points'), command=activate_2x)
 double_score.pack()
 
+
 #When gift button is pressed, the 200 points will be added to the final score
 gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
 gift_score.pack()
 
 def end_game():
-   window.destroy()
-
+  window.destroy()
+  
 end_label = tk.Label(window, text='')
 end_label.pack()
 end_button=tk.Button(window, text='Done yet?', command=end_game)
@@ -419,7 +422,7 @@ window.mainloop()
 
 # endscreen initialisation
 with open("endscreen.py") as f:
-    code = f.read()
+  code = f.read()
 exec(code)
 
 
