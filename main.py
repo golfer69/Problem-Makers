@@ -14,18 +14,6 @@ from turtle import RawTurtle, TurtleScreen
 import sqlite3
 
 
-conn=sqlite3.Connection('user_data.db')
-cursor=conn.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS user_data(
-                Name PRIMARY KEY,
-                Score INTEGER
-)             
-                """)
-
-
-
 # homescreen initialisation
 with open("homescreen.py") as f: 
     code = f.read()
@@ -299,6 +287,16 @@ ScoreL.pack()
 
 window.after(1000, update)
 
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_data(
+                Name PRIMARY KEY,
+                Score INTEGER
+)             
+                """)
+
 # Check ans and record score
 score = 0
 score_label = tk.Label(window, text="")
@@ -308,6 +306,7 @@ score_label.place(x=10, y=410)
 #powerup_active will only be true if the game score is above 400
 powerup_2x=False
 powerup_gift=False
+
 def activate_2x():
   if score>=400:
     powerup_2x=True
@@ -340,54 +339,10 @@ def check_answer(index):
       score += 100
       print(f"Score: {score}")
       if score>=1000:
-        powerup_gift=False
-        
-        
-        
-    # Insert score to database after the game finishes
-    # if game_finished==True:
-    #   conn = sqlite3.connect('user_data.db')
-    #   cursor = conn.cursor()
-    #   cursor.execute("""
-    #   CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
-    #   # Insert the score into the database
-    #   cursor.execute("""INSERT INTO user_data (Score) 
-    #                    VALUES (?)""", (score,))
-    #   conn.commit()
-    #   conn.close()
+         powerup_gift=False
+         
+         
     score_label.config(text= f"Score: {score}") # update the score
-
-# Timer 
-limit = 30
-time = 0
-
-def update():
-    global time
-    time += 1
-    ScoreL.configure(text=f"Time: {time}")
-    if time < limit:
-        # Schedule next update 1 second later
-        window.after(1000, update)
-
-ScoreL = tk.Label(window, text=f"Time: {time}")
-ScoreL.pack()
-
-window.after(1000, update)  # Start the update 1 second later
-
-
-
-# def insert_score_to_database(score):
-#     # Connect to the database
-#     conn = sqlite3.connect('user_data.db')
-#     cursor = conn.cursor()
-#     cursor.execute("""
-#     CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
-#     # Insert the score into the database
-#     cursor.execute("""INSERT INTO user_data (Score) 
-#                           VALUES (?)""", (score,))
-#     conn.commit()
-#     conn.close()
-
 
 
 
@@ -400,14 +355,13 @@ for index, answers in enumerate(current_question['answers']):
   button.pack(pady=5)
   answer_buttons.append(button)
 
-#When 2x points button is pressed, the score will double for the next question
+# #When 2x points button is pressed, the score will double for the next question
 double_score =tk.Button(window, text=('2x points'), command=activate_2x)
-double_score.pack()
+double_score.pack(padx=50)
 
-
-#When gift button is pressed, the 200 points will be added to the final score
+# #When gift button is pressed, the 200 points will be added to the final score
 gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
-gift_score.pack()
+gift_score.pack(padx=50)
 
 def end_game():
   window.destroy()
@@ -415,14 +369,14 @@ def end_game():
 end_label = tk.Label(window, text='')
 end_label.pack()
 end_button=tk.Button(window, text='Done yet?', command=end_game)
-# end_button.pack_forget()
-end_button.pack()
+end_button.pack_forget()
+# end_button.pack()
 window.mainloop()
 
 
 # endscreen initialisation
 with open("endscreen.py") as f:
-  code = f.read()
+   code = f.read()
 exec(code)
 
 

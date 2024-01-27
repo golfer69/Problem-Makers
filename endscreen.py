@@ -27,10 +27,11 @@ def enter2_key(event):
     replay_game()
 
 leaderboard_data=leaderboard()
-print(leaderboard_data)
 end_screen = tk.Tk()
 end_screen.geometry('1500x1000')
 end_screen.title('Shapey | Endscreen')
+scroll_bar=tk.Scrollbar(end_screen, activebackground=('gray'), bg=('lightblue'), orient=('vertical'))
+scroll_bar.pack()
 for index, (name, score) in enumerate(leaderboard_data, start=1):
     label = tk.Label(end_screen, text=f"{index}. {name}: {score}", font=('Arial', 16))
     label.pack(pady=10)
