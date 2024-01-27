@@ -325,13 +325,31 @@ score_label = tk.Label(window, text="")
 score_label.pack()
 score_label.place(x=10, y=410)
 
+#powerup_active will only be true if the game score is above 400
+powerup_2x=False
+powerup_gift=False
+def activate_2x():
+   if score>=400:
+    powerup_2x=True
+
+def activate_gift():
+   score+=200
+   powerup_gift=True
+      
+
+
+
 def check_answer(index):
+    global score, powerup_2x, powerup_gift
     selected_answer = answer_buttons[index].cget("text") # get the answer button's text 
-    global score
     if selected_answer in current_question["correct"]:
+      if powerup_2x:
+        score += 200
+        powerup_2x=False
+      else:
         score += 100
-        answered_shape = selected_answer # Store the correct shape
-        print(f"Stored shape: {answered_shape}" ) 
+      answered_shape = selected_answer # Store the correct shape
+      print(f"Stored shape: {answered_shape}" ) 
     elif selected_answer != current_question['correct']: # skip next question if wrong ans
       score += 0
     elif int(selected_answer) == shape_amount:
@@ -341,6 +359,11 @@ def check_answer(index):
       print(f"Value from dict: {shape_amount}") 
       score += 100
       print(f"Score: {score}")
+      if score>=1000:
+         powerup_gift=False
+         
+         
+         
     # Insert score to database after the game finishes
     # if game_finished==True:
     #   conn = sqlite3.connect('user_data.db')
@@ -382,13 +405,22 @@ for index, answers in enumerate(current_question['answers']):
   button.pack(pady=5)
   answer_buttons.append(button)
 
+#When 2x points button is pressed, the score will double for the next question
+double_score =tk.Button(window, text=('2x points'), command=activate_2x)
+double_score.pack()
+
+#When gift button is pressed, the 200 points will be added to the final score
+gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
+gift_score.pack()
+
 def end_game():
    window.destroy()
 
 end_label = tk.Label(window, text='')
 end_label.pack()
 end_button=tk.Button(window, text='Done yet?', command=end_game)
-end_button.pack_forget()
+# end_button.pack_forget()
+end_button.pack()
 window.mainloop()
 
 
