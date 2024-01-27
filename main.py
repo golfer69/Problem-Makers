@@ -14,6 +14,11 @@ from turtle import RawTurtle, TurtleScreen
 import sqlite3
 
 
+
+
+
+
+
 # homescreen initialisation
 with open("homescreen.py") as f:
     code = f.read()
@@ -154,7 +159,7 @@ if len(shapes_data) == 1: # if there's only one shape
           t.goto(coordinate)
           draw(shape_type, color)
 else: 
-  for coordinate, shape_type in zip(coordinates_list[:num_shapes],shapes_data): #combine the values from both as one
+  for coordinate, shape_type in zip(coordinates_list[:num_shapes],shapes_data):
       print(f"Coordinate: {coordinate}")
       color = shapes_data[shape_type]['color']
       t.goto(coordinate)
@@ -165,11 +170,13 @@ else:
 def get_other_shapes(current_shape):
     available_shapes = list(shapes)
     available_shapes.remove(current_shape)
+    random.shuffle(available_shapes)
     return available_shapes[:2]  # Choose 2 other shapes for answer options
 
 def get_other_colors(current_color):
     available_colors = list(colors)
     available_colors.remove(current_color)
+    random.shuffle(available_colors)
     return available_colors[:2]  # Choose 2 other shapes for answer options
 
 questions = [] 
@@ -213,11 +220,10 @@ def next_question():
         current_question = questions[question_index]
         question_label.config(text=current_question["question"]) #configure the label for question
         question_no_label.config(text="Question #"+ str((question_index+1))) #configure number of the question
-        random.shuffle(current_question["answers"]) # shuffle answers
-        for i, answer in enumerate(current_question["answers"]): #create the answer buttons
+        for i, answer in enumerate(current_question["answers"]):
           answer_buttons[i].config(text=answer)
         question_index += 1
-      
+        
 # Prints question 
 question_index = 0
 
@@ -228,15 +234,6 @@ question_no_label.pack(pady=20) #show the widget
 question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
 
-# Create answers button and respond to clicked button
-
-answer_buttons = [] # Create a list to append
-random.shuffle(current_question["answers"]) # shuffle answers
-for index, answers in enumerate(current_question["answers"]): 
-  button = tk.Button(window, text=answers, command=lambda index=index: (check_answer(index), next_question())) 
-  button.pack(pady=5)
-  answer_buttons.append(button)
-  
 # Check ans and record score
 score = 0
 score_label = tk.Label(window, text="")
@@ -290,7 +287,13 @@ def check_answer(index):
 
 
 
+# Create answers button and respond to clicked button
 
+answer_buttons = [] # Create a list to append
+for index, answers in enumerate(current_question["answers"]): 
+  button = tk.Button(window, text=answers, command=lambda index=index: (check_answer(index), next_question())) 
+  button.pack(pady=5)
+  answer_buttons.append(button)
 
 def end_game():
    window.destroy()
