@@ -180,12 +180,9 @@ def draw(coordinate,shape,color): #Calls draw function
   elif shape == "Hexagon":
        draw_hexagon(color)
 
-      #timer attempt 
 
 
-import tkinter as tk
-
-window = tk.Tk()
+#timer attempt 
 limit = 10
 score = 0
 
@@ -302,6 +299,25 @@ question_no_label.pack(pady=20) #show the widget
 
 question_label = tk.Label(window, text=current_question["question"])
 question_label.pack(pady=20)
+
+#Freeze powerup
+limit = 30
+current_time = 0
+freeze = "yes"
+
+def update():
+  global current_time, freeze
+  ScoreL.configure(text=current_time)
+  if current_time < limit and freeze != "yes":
+      current_time += 1
+      window.after(1000, update) # schedule next update 1 second later 
+  if freeze == "yes":
+      current_time = current_time
+
+ScoreL = tk.Label(window, text=current_time)
+ScoreL.pack()
+
+window.after(1000, update)
 
 # Check ans and record score
 score = 0
