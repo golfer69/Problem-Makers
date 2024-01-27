@@ -15,9 +15,9 @@ import sqlite3
 from itertools import cycle
 
 # homescreen initialisation
-# with open("homescreen.py") as f: 
-#     code = f.read()
-# exec(code)
+with open("homescreen.py") as f: 
+    code = f.read()
+exec(code)
 
 # window
 window = tk.Tk() 
@@ -330,6 +330,6 @@ end_button.pack_forget()
 window.mainloop()
 
 # endscreen initialisation
-# with open("endscreen.py") as f:
-#     code = f.read()
-# exec(code)
+with open("endscreen.py") as f:
+    code = f.read()
+exec(code)
