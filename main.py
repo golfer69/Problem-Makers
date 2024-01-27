@@ -338,7 +338,8 @@ score_label.place(x=10, y=410)
 
 #powerup_active will only be true if the game score is above 400
 powerup_2x=False
-powerup_gift=False
+powerup_gift=
+
 def activate_2x():
    if score>=400:
     powerup_2x=True
@@ -418,11 +419,11 @@ for index, answers in enumerate(current_question['answers']):
 
 #When 2x points button is pressed, the score will double for the next question
 double_score =tk.Button(window, text=('2x points'), command=activate_2x)
-double_score.pack()
+double_score.pack(padx=50)
 
 #When gift button is pressed, the 200 points will be added to the final score
 gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
-gift_score.pack()
+gift_score.pack(padx=50)
 
 def end_game():
    window.destroy()
