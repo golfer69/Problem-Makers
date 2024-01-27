@@ -154,7 +154,13 @@ base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
 base_coordinates3 = (-100, 0)
 
-coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3]
+coordinates_list = [base_coordinates1,base_coordinates2] 
+
+random_num_shapes=random.randint(1,2)
+
+
+if random_num_shapes ==1 :#go to different coordinates depending on the number of shapes
+   t.goto(0,0)
 
 
 

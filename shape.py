@@ -19,3 +19,8 @@
 
 # window.after(1000, update) # start the update 1 second later
 # window.mainloop()
+
+import random
+import turtle
+random_num_shapes= random.randint(1,2)
+base_coordinates1=0
