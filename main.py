@@ -141,6 +141,7 @@ def draw_hexagon(color): # Hexagon
     t.hideturtle()
    
 
+
 ## Coordinates ## (Schweeta part)
      
 base_coordinates1 = (0, 0)
@@ -150,27 +151,8 @@ base_coordinates3 = (-100, 0)
 coordinates_list = [base_coordinates1,base_coordinates2]
 
 
-#timer
-import tkinter
 
-window = tkinter.Tk()
 
-limit = 10
-score = 0
-
-def update():
-    global score
-    score += 1
-    ScoreL.configure(text=score)
-    if score < limit:
-        # schedule next update 1 second later
-        window.after(1000, update)
-
-ScoreL = tkinter.Label(window, text=score)
-ScoreL.pack()
-
-window.after(1000, update) # start the update 1 second later
-window.mainloop()
 
 
 ## Drawing ##
@@ -201,6 +183,25 @@ def draw(coordinate,shape,color): #Calls draw function
       #timer attempt 
 
 
+import tkinter as tk
+
+window = tk.Tk()
+limit = 10
+score = 0
+
+def update():
+    global score
+    score += 1
+    ScoreL.configure(text=score)
+    if score < limit:
+        # Schedule next update 1 second later
+        window.after(1000, update)
+
+ScoreL = tk.Label(window, text=score)
+ScoreL.pack()
+
+window.after(1000, update)  # Start the update 1 second later
+window.mainloop()
 
 ## Quiz ##
 
@@ -379,3 +380,12 @@ window.mainloop()
 with open("endscreen.py") as f:
     code = f.read()
 exec(code)
+
+
+
+
+
+
+
+
+
