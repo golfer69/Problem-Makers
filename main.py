@@ -12,7 +12,23 @@ import random
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import sqlite3
+<<<<<<< Updated upstream
 from itertools import cycle
+=======
+
+
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_data(
+                Name PRIMARY KEY,
+                Score INTEGER
+)             
+                """)
+
+
+>>>>>>> Stashed changes
 
 # homescreen initialisation
 with open("homescreen.py") as f: 
@@ -27,9 +43,14 @@ window.title("Shapey | Quiz window")
 canvas = tk.Canvas(window, width=600, height=400)
 canvas.pack()
 
+
 # Link Turtle to the canvas in tkinter
 screen = TurtleScreen(canvas)  # Link Turtle to the Canvas
 t = RawTurtle(screen)  # Create a RawTurtle instance
+
+
+
+
 
 ## Shapes and colors ##
 
@@ -43,6 +64,7 @@ colors = ['red', 'blue', 'green','purple','yellow']
 
 num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
 
+<<<<<<< Updated upstream
 generated_shapes ={}
 def generate_shape(): # Generate shape & their own color 
   for _ in range(num_shapes): #  generate shape_type and color of it
@@ -52,6 +74,12 @@ def generate_shape(): # Generate shape & their own color
 
 generate_shape()
 ## Draw functions ## (Scheewta part)
+=======
+
+
+
+## Draw functions ## (Schweeta part)
+>>>>>>> Stashed changes
 t.speed(0) # makes it super fast
 
 def draw_triangle(color): #Triangle
@@ -128,13 +156,43 @@ def draw_hexagon(color): # Hexagon
     t.penup()
     t.hideturtle()
    
-## Coordinates ## (Scheewta part)
+
+## Coordinates ## (Schweeta part)
      
 base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
 base_coordinates3 = (-100, 0)
 
+<<<<<<< Updated upstream
 coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3]
+=======
+coordinates_list = [base_coordinates1,base_coordinates2]
+
+
+#timer
+import tkinter
+
+window = tkinter.Tk()
+
+limit = 10
+score = 0
+
+def update():
+    global score
+    score += 1
+    ScoreL.configure(text=score)
+    if score < limit:
+        # schedule next update 1 second later
+        window.after(1000, update)
+
+ScoreL = tkinter.Label(window, text=score)
+ScoreL.pack()
+
+window.after(1000, update) # start the update 1 second later
+window.mainloop()
+
+
+>>>>>>> Stashed changes
 ## Drawing ##
 
 shapes_data = {} # initialise a dict for counting
@@ -159,6 +217,10 @@ def draw(coordinate,shape,color): #Calls draw function
        draw_pentagon(color)
   elif shape == "Hexagon":
        draw_hexagon(color)
+
+      #timer attempt 
+
+
 
 ## Quiz ##
 
@@ -332,8 +394,12 @@ end_button=tk.Button(window, text='Done yet?', command=end_game)
 end_button.pack_forget()
 window.mainloop()
 
+<<<<<<< Updated upstream
 saved_score = score
 print(f"saved score from main.py : {saved_score}")
+=======
+
+>>>>>>> Stashed changes
 
 # endscreen initialisation
 with open("endscreen.py") as f:

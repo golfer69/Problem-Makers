@@ -1,5 +1,6 @@
 
 import random
+import tkinter
 import turtle
 # making turtle work
 t = turtle.Turtle()
@@ -173,4 +174,6 @@ elif random_num_shapes == 2:
   draw(chosen_shapes) 
             
 
-               
+      
+
+
