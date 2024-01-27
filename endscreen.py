@@ -1,11 +1,19 @@
 import tkinter as tk
 import sqlite3
 
-from main import saved_score 
-print(f"imported saved_score: {saved_score}")
-
 conn=sqlite3.Connection('user_data.db')
 cursor=conn.cursor()
+
+from main import saved_score 
+def insert_score_to_database(saved_score):
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
+    # Insert the score into the database
+    cursor.execute("""INSERT INTO user_data (Score) 
+                          VALUES (?)""", (saved_score,))
+    conn.commit()
+    conn.close()
+
 
 def leaderboard():
     cursor.execute('SELECT * FROM user_data ORDER BY Score DESC')  # Order by score in descending order

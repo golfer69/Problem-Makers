@@ -325,16 +325,16 @@ def check_answer(index):
       score += 100
       print(f"Score: {score}")
     # Insert score to database after the game finishes
-    if game_finished==True:
-      conn = sqlite3.connect('user_data.db')
-      cursor = conn.cursor()
-      cursor.execute("""
-      CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
-      # Insert the score into the database
-      cursor.execute("""INSERT INTO user_data (Score) 
-                       VALUES (?)""", (score,))
-      conn.commit()
-      conn.close()
+    # if game_finished==True:
+    #   conn = sqlite3.connect('user_data.db')
+    #   cursor = conn.cursor()
+    #   cursor.execute("""
+    #   CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
+    #   # Insert the score into the database
+    #   cursor.execute("""INSERT INTO user_data (Score) 
+    #                    VALUES (?)""", (score,))
+    #   conn.commit()
+    #   conn.close()
     score_label.config(text= f"Score: {score}") # update the score
 
 
