@@ -58,6 +58,8 @@ chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the ques
 
 colors = ['red', 'blue', 'green','purple','yellow']
 
+num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
+
 generated_shapes ={}
 def generate_shape(): # Generate shape & their own color 
   for _ in range(num_shapes): #  generate shape_type and color of it
@@ -66,8 +68,6 @@ def generate_shape(): # Generate shape & their own color
     generated_shapes[shape_type] = {"color": color}
 
 generate_shape()
-
-num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
 
 ## Draw functions ## (Schweeta part)
 t.speed(0) # makes it super fast
