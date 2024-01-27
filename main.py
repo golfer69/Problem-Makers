@@ -257,7 +257,7 @@ def check_answer(index):
       score += 100
       print(f"Score: {score}")
     # Insert score to database after the game finishes
-    if game_finished:
+    if game_finished==True:
       conn = sqlite3.connect('user_data.db')
       cursor = conn.cursor()
       cursor.execute("""
