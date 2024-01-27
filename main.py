@@ -154,30 +154,12 @@ def draw_hexagon(color): # Hexagon
 base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
 base_coordinates3 = (-100, 0)
+base_coordinates4 = (50,0)
+base_coordinates5 = (-50,0)
+base_coordinates6 = (150,0)
 
-coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3] 
-<<<<<<< Updated upstream
-=======
-#move the turtle to a random first coordinate
-t.penup()
-t.goto(base_coordinates1[0],base_coordinates1[1])
-t.pendown()
+coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3,base_coordinates4,base_coordinates5,base_coordinates6] 
 
-#draw the shapes using 6 coordinates
-t.goto(base_coordinates1[0], base_coordinates1[1])
-t.goto(base_coordinates2[0], base_coordinates2[2])
-t.goto(base_coordinates3[0],base_coordinates3[3])
-t.goto(base_coordinates1[0],base_coordinates2[4])
-t.goto(base_coordinates2[0],base_coordinates3[5])
-t.goto(base_coordinates3[0],base_coordinates1[6])
-
-
-
-
-
-
-
->>>>>>> Stashed changes
 
 num_shapes=random.randint(1,3)
 
