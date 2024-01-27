@@ -12,17 +12,12 @@ import random
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import sqlite3
-
-
-
-
-
-
+from itertools import cycle
 
 # homescreen initialisation
-with open("homescreen.py") as f:
-    code = f.read()
-exec(code)
+# with open("homescreen.py") as f: 
+#     code = f.read()
+# exec(code)
 
 # window
 window = tk.Tk() 
@@ -38,7 +33,7 @@ t = RawTurtle(screen)  # Create a RawTurtle instance
 
 ## Shapes and colors ##
 
-shapes = ["Square", "Circle", "Triangle","Hexagon"]
+shapes = ["Circle","Triangle","Square","Pentagon","Hexagon"]
 shape_1 = random.choice(shapes)
 shape_2 = random.choice(shapes)
 shape_3 = random.choice(shapes)
@@ -46,7 +41,7 @@ chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the ques
 
 colors = ['red', 'blue', 'green','purple','yellow']
 
-num_shapes = random.randint(1, 2)	#Chooses how many shapes will be drawn 
+num_shapes = random.randint(1, 3)	#Chooses how many shapes will be drawn 
 
 ## Draw functions ## (Scheewta part)
 t.speed(0) # makes it super fast
@@ -98,7 +93,21 @@ def draw_circle(color): #Circle
     t.penup()
     t.hideturtle()
 
-def draw_hexagon(color):
+def draw_pentagon(color):  # Pentagon
+    t.penup()
+    t.pencolor(color)
+    t.begin_fill()
+    t.fillcolor(color)
+    t.pendown()
+    for _ in range(5):
+        t.forward(30)  
+        t.left(72)  
+    t.end_fill()
+    t.penup()
+    t.hideturtle()
+
+
+def draw_hexagon(color): # Hexagon
     t.penup()
     t.pencolor(color)
     t.begin_fill()
@@ -115,55 +124,68 @@ def draw_hexagon(color):
      
 base_coordinates1 = (0, 0)
 base_coordinates2 = (100, 0)
+base_coordinates3 = (-100, 0)
 
-coordinates_list = [base_coordinates1,base_coordinates2]
+coordinates_list = [base_coordinates1,base_coordinates2,base_coordinates3]
 ## Drawing ##
 
-def draw(shape,color): #Calls draw function
-    if shape == "Triangle":
+shapes_data = {} # initialise a dict for storing
+
+def generate_shape(): #generate shape & their color and count as well
+  for _ in range(num_shapes): #  generate shape_type and color of it
+    shape_type = random.choice(chosen_shapes) 
+    color = random.choice(colors)
+    shapes_data[shape_type] = {"color": color, "amount": 0}
+
+generate_shape()
+
+def count(shape):
+  print(shape)
+  if shape in shapes_data: # Check if shape_type is already in shapes_data
+      shapes_data[shape]["amount"] += 1  # add one if it exists
+      print(shapes_data[shape]["amount"])
+
+def draw(coordinate,shape,color): #Calls draw function
+  t.goto(coordinate)
+  if shape == "Triangle":
         draw_triangle(color)
-    elif shape == "Square":
+  elif shape == "Square":
         draw_square(color)
-    elif shape == "Circle":
+  elif shape == "Circle":
         draw_circle(color)
-    elif shape == "Hexagon":
+  elif shape == "Pentagon":
+       draw_pentagon(color)
+  elif shape == "Hexagon":
        draw_hexagon(color)
 
 ## Quiz ##
 
-# Random generator
-shapes_data = {}
+print(f"num_shapes: {num_shapes}")
 
-for _ in range(num_shapes):
-    shape_type = random.choice(chosen_shapes)  # choose shape type
+# Draw shapes
 
-    # Check if shape_type is already in shapes_data
-    if shape_type in shapes_data:
-      print("added 1 already")
-      shapes_data[shape_type]['amount'] += 1  # Increment count if shape exists
-    else:
-      color = random.choice(colors)  # choose color
-      # Add new shape_type to shapes_data with count 1
-      shapes_data[shape_type] = {'color': color, 'amount': 1}
-
-print(shape_type)
+for coordinate in coordinates_list[:num_shapes]:
+  print(f"Drawing on coordinate: {coordinate}")
+  shape = random.choice(list(shapes_data.keys()))
+  shape_color = shapes_data[shape]["color"]
+  draw(coordinate, shape, shape_color)
+  count(shape)
 
 print(shapes_data)
-# Draw shapes
-print(f"num_shapes: {num_shapes}")
-if len(shapes_data) == 1: # if there's only one shape
-  for shape_type in shapes_data:
-      for coordinate in coordinates_list[:num_shapes]:
-          print(f"Coordinate: {coordinate}")
-          color = shapes_data[shape_type]['color']
-          t.goto(coordinate)
-          draw(shape_type, color)
-else: 
-  for coordinate, shape_type in zip(coordinates_list[:num_shapes],shapes_data):
-      print(f"Coordinate: {coordinate}")
-      color = shapes_data[shape_type]['color']
-      t.goto(coordinate)
-      draw(shape_type, color)
+
+#   for shape_type in shapes_data:
+#       for coordinate in coordinates_list[:num_shapes]:
+#           print(f"Coordinate: {coordinate}")
+#           color = shapes_data[shape_type]['color']
+#           t.goto(coordinate)
+#           draw(shape_type, color)
+# else: 
+#   for coordinate, shape_type in zip(coordinates_list[:num_shapes],shapes_data):
+#       print(f"Coordinate: {coordinate}")
+#       color = shapes_data[shape_type]['color']
+#       t.goto(coordinate)
+#       draw(shape_type, color)
+
     
 # Questions
 
@@ -216,10 +238,12 @@ def next_question():
       question_label.config(text="") # clear labels
       question_no_label.config(text="")
       end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
+      end_button.pack()
     else:
         current_question = questions[question_index]
         question_label.config(text=current_question["question"]) #configure the label for question
         question_no_label.config(text="Question #"+ str((question_index+1))) #configure number of the question
+        random.shuffle(current_question["answers"]) # shuffle answers
         for i, answer in enumerate(current_question["answers"]):
           answer_buttons[i].config(text=answer)
         question_index += 1
@@ -290,7 +314,8 @@ def check_answer(index):
 # Create answers button and respond to clicked button
 
 answer_buttons = [] # Create a list to append
-for index, answers in enumerate(current_question["answers"]): 
+random.shuffle(current_question["answers"])
+for index, answers in enumerate(current_question['answers']): 
   button = tk.Button(window, text=answers, command=lambda index=index: (check_answer(index), next_question())) 
   button.pack(pady=5)
   answer_buttons.append(button)
@@ -301,10 +326,10 @@ def end_game():
 end_label = tk.Label(window, text='')
 end_label.pack()
 end_button=tk.Button(window, text='Done yet?', command=end_game)
-end_button.pack()
+end_button.pack_forget()
 window.mainloop()
 
 # endscreen initialisation
-with open("endscreen.py") as f:
-    code = f.read()
-exec(code)
+# with open("endscreen.py") as f:
+#     code = f.read()
+# exec(code)
