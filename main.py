@@ -58,8 +58,6 @@ chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the ques
 
 colors = ['red', 'blue', 'green','purple','yellow']
 
-num_shapes = random.randint(1, 6)	#Chooses how many shapes will be drawn 
-
 def generate_shape(): # Generate shape & their own color 
   for _ in range(num_shapes): #  generate shape_type and color of it
     shape_type = random.choice(chosen_shapes) 
@@ -282,6 +280,8 @@ while timer < limit:
     finish = False # so that it runs one time 
     shapes_data = {} # initialise a dict for counting/ clear the data inside
     generated_shapes ={} 
+
+    num_shapes = random.randint(1, 6)	#Chooses how many shapes will be drawn 
 
     t.clear()
     generate_shape()
