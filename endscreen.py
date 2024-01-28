@@ -33,11 +33,11 @@ end_screen.title('Shapey | Endscreen')
 
 #create a main frame
 end_frame=tk.Frame(end_screen)
-end_frame.pack(fill='both')
+end_frame.pack(fill='both', expand=1)
 
 # create a canvas
 end_canvas=tk.Canvas(end_frame)
-end_canvas.pack(fill='both')
+end_canvas.pack(fill='both', expand=1)
 
 # add a scrollbar to canvas
 end_scrollbar=tk.Scrollbar(end_frame, orient='vertical', command=end_canvas.yview)

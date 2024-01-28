@@ -1,11 +1,10 @@
 import tkinter as tk
 
-global user_name
+global saved_name
 def play_game():
     user_name = user.get()
     if user_name:
-        welcome_message = f"Welcome, {user_name}! Let's start playing Shapey!"
-        start.config(text=welcome_message, font=('Helvetica', 16, 'italic'), fg='green')
+        saved_name=user_name
         home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')

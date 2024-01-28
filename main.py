@@ -14,9 +14,56 @@ from turtle import RawTurtle, TurtleScreen
 import sqlite3
 
 # homescreen initialisation
-with open("homescreen.py") as f: 
-    code = f.read()
-exec(code)
+# with open("homescreen.py") as f: 
+#     code = f.read()
+# exec(code)
+
+# global user_name
+# user_name = user.get()
+user_name=" "
+def play_game():
+    global user_name
+    if user_name:
+        user_name = user.get()
+        home.destroy()
+    else:
+        start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
+
+
+# When press enter key, the game will start
+def enterkey(event):
+    play_game()
+
+  # Declare home and user as global variables
+
+ 
+home = tk.Tk()
+home.geometry('600x400')
+home.title('Shapey | Homescreen')
+
+start = tk.Label(home, text='Welcome to our game!', font=('Helvetica', 16))
+start.pack(padx=10, pady=40)
+
+game_name = tk.Label(home, text='Shapey', font=('Arial', 30), fg='purple', bg='lightblue')
+game_name.pack(pady=10)
+
+name_label = tk.Label(home, text='Enter your name', font=('Comic Sans MC', 20))
+name_label.pack(pady=10)
+
+user = tk.Entry(home, font=('Arial', 10))
+user.pack(pady=10)
+
+
+play_button = tk.Button(home, text='Enter', font=('Helvetica', 15), command=play_game)
+play_button.pack(pady=40)
+
+
+# Bind enter key to enterkey function
+home.bind('<Return>', enterkey)
+
+
+
+home.mainloop()
 
 # window
 window = tk.Tk() 
@@ -335,13 +382,16 @@ def check_answer(index):
 conn=sqlite3.Connection('user_data.db')
 cursor=conn.cursor()
 
-def insert_score_to_database(user_name,saved_score):
+def insert_score_to_database(user_name,score):
     cursor.execute("""CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
     # Insert the score into the database
-    cursor.execute("""INSERT INTO user_data (Name, Score) VALUES (?, ?)""", (user_name, saved_score))
+    cursor.execute("""INSERT INTO user_data (Name, Score) VALUES (?, ?)""", (user_name, score))
     conn.commit()
     conn.close()
-    window.destroy()
+
+def destroy_game():
+   insert_score_to_database(user_name, score)
+   window.destroy()
 
 
 
@@ -363,10 +413,9 @@ gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
 gift_score.pack_forget()
 
 
-
 end_label = tk.Label(window, text='')
 end_label.pack()
-save_your_score=tk.Button(window, text=('Save your score'), font=('Helvetica', 16), command=insert_score_to_database(user_name, score))
+save_your_score=tk.Button(window, text=('Save your score'), font=('Helvetica', 16), command=destroy_game)
 save_your_score.pack()
 # end_button=tk.Button(window, text='Done yet?', command=end_game)
 # end_button.pack_forget()
