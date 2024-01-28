@@ -57,7 +57,7 @@ for index, (name, score) in enumerate(leaderboard_data, start=1):
 # close game after pressing enter
 close_game = tk.Button(second_frame, text=('Press Enter to Close'), font=('Arial', 20), command=end_game)
 close_game.pack(pady=50, side='bottom')
-
+# set the window to be positioned at the calculated coordinates
 end_screen.geometry(f'600x400+{mid_x - 300}+{mid_y - 200}')
 
 
