@@ -34,23 +34,20 @@ t = RawTurtle(screen)  # Create a RawTurtle instance
 
 # Timer
 
-limit= 30
-timer = 0
-def update():
-    global timer, game_finished
-    timer += 1
-    time_label.configure(text=f"Time: {timer}")
-    if timer < limit:
+limit= 30 #the maximum value for the timer to reach is 30 seconds 
+timer = 0 #the timer starts with 0  and keeps track of the current time elapsed 
+def update():      #increasing the timer variable and updates the time label
+    global timer, game_finished #this variables are present globally
+    timer += 1    #increases the timer value by 1
+    time_label.configure(text=f"Time: {timer}") #updates the text of time label widget to display the current value of the timer 
+    if timer < limit: # the next update is scheduled, if not the timer stops updating
         # schedule next update 1 second later
-        window.after(1000, update)
-    elif timer == limit:
-       game_finished = True
+        window.after(1000, update) #next update 1 second later
+    elif timer == limit: #it tells the game has reached the time limits
+       game_finished = True #game over 
 
-<<<<<<< HEAD
-=======
 window.after(1000, update) # start the update 1 second later (for timer)
 
->>>>>>> bd47098abf5eba8dc69123a5c4f2d6911bbfdd6f
 ## Shapes and colors ##
 
 shapes = ["Circle","Triangle","Square","Pentagon","Hexagon"]
@@ -147,7 +144,7 @@ def draw_hexagon(color): # Hexagon
     t.hideturtle()
 
 ## Coordinates ## (Schweeta part)
-    
+# the coordinates used to draw the shapes 
 base_coordinates1 = (-200, 50)
 base_coordinates2 = (-100,50)
 base_coordinates3 = (0,50)
@@ -406,22 +403,6 @@ if game_finished == True:
 
 
 
-<<<<<<< HEAD
-
-
-
-
-def end_game():
-  
-  window.destroy()
-  
-end_label = tk.Label(window, text='')
-end_label.pack()
-end_button=tk.Button(window, text='Done yet?', command=end_game)
-end_button.pack_forget()
-# end_button.pack()
-=======
->>>>>>> bd47098abf5eba8dc69123a5c4f2d6911bbfdd6f
 window.mainloop()
 
 
