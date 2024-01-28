@@ -34,17 +34,17 @@ t = RawTurtle(screen)  # Create a RawTurtle instance
 
 # Timer
 
-limit= 30
-timer = 0
-def update():
-    global timer, game_finished
-    timer += 1
-    time_label.configure(text=f"Time: {timer}")
-    if timer < limit:
+limit= 30 #the maximum value for the timer to reach is 30 seconds 
+timer = 0 #the timer starts with 0  and keeps track of the current time elapsed 
+def update():      #increasing the timer variable and updates the time label
+    global timer, game_finished #this variables are present globally
+    timer += 1    #increases the timer value by 1
+    time_label.configure(text=f"Time: {timer}") #updates the text of time label widget to display the current value of the timer 
+    if timer < limit: # the next update is scheduled, if not the timer stops updating
         # schedule next update 1 second later
-        window.after(1000, update)
-    elif timer == limit:
-       game_finished = True
+        window.after(1000, update) #next update 1 second later
+    elif timer == limit: #it tells the game has reached the time limits
+       game_finished = True #game over 
 
 window.after(1000, update) # start the update 1 second later (for timer)
 
@@ -57,8 +57,6 @@ shape_3 = random.choice(shapes)
 chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the question 
 
 colors = ['red', 'blue', 'green','purple','yellow']
-
-num_shapes = random.randint(1, 6)	#Chooses how many shapes will be drawn 
 
 def generate_shape(): # Generate shape & their own color 
   for _ in range(num_shapes): #  generate shape_type and color of it
@@ -144,7 +142,7 @@ def draw_hexagon(color): # Hexagon
     t.hideturtle()
 
 ## Coordinates ## (Schweeta part)
-    
+# the coordinates used to draw the shapes 
 base_coordinates1 = (-200, 50)
 base_coordinates2 = (-100,50)
 base_coordinates3 = (0,50)
@@ -282,6 +280,8 @@ while timer < limit:
     finish = False # so that it runs one time 
     shapes_data = {} # initialise a dict for counting/ clear the data inside
     generated_shapes ={} 
+
+    num_shapes = random.randint(1, 6)	#Chooses how many shapes will be drawn 
 
     t.clear()
     generate_shape()
