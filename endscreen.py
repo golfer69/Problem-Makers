@@ -20,7 +20,7 @@ leaderboard_data=leaderboard()
 
 #end screen window
 end_screen = tk.Tk()
-end_screen.geometry('1500x1000')
+end_screen.geometry('600x400')
 end_screen.title('Shapey | Endscreen')
 
 #Making a full screen scroll bar
