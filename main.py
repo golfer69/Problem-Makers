@@ -51,10 +51,6 @@ window.after(1000, update) # start the update 1 second later (for timer)
 ## Shapes and colors ##
 
 shapes = ["Circle","Triangle","Square","Pentagon","Hexagon"]
-shape_1 = random.choice(shapes)
-shape_2 = random.choice(shapes)
-shape_3 = random.choice(shapes)
-chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the question 
 
 colors = ['red', 'blue', 'green','purple','yellow']
 
@@ -190,13 +186,9 @@ def drawing():
 
 
 def check_answer(index):
-    global score #powerup_2x, powerup_gift
+    global score 
     selected_answer = answer_buttons[index].cget("text") # get the answer button's text 
     if selected_answer in current_question["correct"]:
-      # if powerup_2x:
-      #   score += 200
-      #   powerup_2x=False
-      # else:
       score += 100
       answered_shape = selected_answer # Store the correct shape
       print(f"Stored shape: {answered_shape}" ) 
@@ -209,9 +201,7 @@ def check_answer(index):
       print(f"Value from dict: {shape_amount}") 
       score += 100
       print(f"Score: {score}")
-      if score>=1000:
-        powerup_gift=False
-        
+
     score_label.config(text= f"Score: {score}") # update the score
 
 def next_question():
@@ -278,11 +268,16 @@ game_finished = False
 while timer < limit:
   if finish == True:
     finish = False # so that it runs one time 
+    
     shapes_data = {} # initialise a dict for counting/ clear the data inside
     generated_shapes ={} 
 
     num_shapes = random.randint(1, 6)	#Chooses how many shapes will be drawn 
-
+    shape_1 = random.choice(shapes)
+    shape_2 = random.choice(shapes)
+    shape_3 = random.choice(shapes)
+    chosen_shapes = [shape_1, shape_2, shape_3] #Chooses types of shape for the question 
+    
     t.clear()
     generate_shape()
     drawing()
@@ -364,47 +359,7 @@ if game_finished == True:
   window.bind('<Return>', enter2_key)
   save_your_score.pack(pady=5) # show the button  
 
-# #When 2x points button is pressed, the score will double for the next question
-# double_score =tk.Button(window, text=('2x points'), command=activate_2x)
-# double_score.pack_forget()
-
-# #When gift button is pressed, the 200 points will be added to the final score
-# gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
-# gift_score.pack_forget()
-
-# #powerup_active will only be true if the game score is above 400
-#   powerup_2x=False
-#   powerup_gift=False
-
-#   def activate_2x():
-#     if score>=400:
-#       powerup_2x=True
-
-#   def activate_gift():
-#     score+=200
-#     powerup_gift=True
-
-# #Freeze powerup
-# limit = 30 
-# current_time = 0
-# freeze = "yes"
-
-# def update():
-#   global current_time, freeze
-#   time_label.configure(text=current_time)
-#   if current_time < limit and freeze != "yes":
-#       current_time += 1
-#       window.after(1000, update) # schedule next update 1 second later 
-#   if freeze == "yes":
-#       current_time = current_time
-
-# time_label = tk.Label(window, text=current_time)
-# time_label.pack()
-
-
-
 window.mainloop()
-
 
 # endscreen initialisation
 with open("endscreen.py") as f:
