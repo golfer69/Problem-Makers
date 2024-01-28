@@ -34,7 +34,6 @@ t = RawTurtle(screen)  # Create a RawTurtle instance
 
 
 
-
 ## Shapes and colors ##
 
 shapes = ["Circle","Triangle","Square","Pentagon","Hexagon"]
@@ -363,7 +362,12 @@ double_score.pack(padx=50)
 gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
 gift_score.pack(padx=50)
 
+
+
+
+
 def end_game():
+  
   window.destroy()
   
 end_label = tk.Label(window, text='')
