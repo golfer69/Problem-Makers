@@ -1,10 +1,10 @@
 import tkinter as tk
 
-global saved_name
+user_name=" "
 def play_game():
-    user_name = user.get()
+    global user_name
     if user_name:
-        saved_name=user_name
+        user_name = user.get()
         home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
@@ -14,8 +14,7 @@ def play_game():
 def enterkey(event):
     play_game()
 
-def create_home_screen():
-    global home, user  # Declare home and user as global variables
+  # Declare home and user as global variables
 
  
 home = tk.Tk()
@@ -34,8 +33,10 @@ name_label.pack(pady=10)
 user = tk.Entry(home, font=('Arial', 10))
 user.pack(pady=10)
 
+
 play_button = tk.Button(home, text='Enter', font=('Helvetica', 15), command=play_game)
 play_button.pack(pady=40)
+
 
 # Bind enter key to enterkey function
 home.bind('<Return>', enterkey)
