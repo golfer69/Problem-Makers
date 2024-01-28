@@ -13,7 +13,6 @@ import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import sqlite3
 
-
 # homescreen initialisation
 with open("homescreen.py") as f: 
     code = f.read()
@@ -248,7 +247,6 @@ def next_question():
       question_label.config(text="") # clear labels
       question_no_label.config(text="")
       end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
-      end_button.pack()
     else:
         current_question = questions[question_index]
         question_label.config(text=current_question["question"]) #configure the label for question
@@ -271,6 +269,7 @@ question_label.pack(pady=20)
 
 #Freeze powerup
 current_time = 0
+limit=30
 freeze = "yes"
 
 def update():
@@ -286,16 +285,6 @@ ScoreL = tk.Label(window, text=current_time)
 ScoreL.pack()
 
 window.after(1000, update)
-
-conn=sqlite3.Connection('user_data.db')
-cursor=conn.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS user_data(
-                Name PRIMARY KEY,
-                Score INTEGER
-)             
-                """)
 
 # Check ans and record score
 score = 0
@@ -341,8 +330,18 @@ def check_answer(index):
       if score>=1000:
          powerup_gift=False
          
-         
     score_label.config(text= f"Score: {score}") # update the score
+
+conn=sqlite3.Connection('user_data.db')
+cursor=conn.cursor()
+
+def insert_score_to_database(user_name,saved_score):
+    cursor.execute("""CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
+    # Insert the score into the database
+    cursor.execute("""INSERT INTO user_data (Name, Score) VALUES (?, ?)""", (user_name, saved_score))
+    conn.commit()
+    conn.close()
+    window.destroy()
 
 
 
@@ -355,28 +354,29 @@ for index, answers in enumerate(current_question['answers']):
   button.pack(pady=5)
   answer_buttons.append(button)
 
-# #When 2x points button is pressed, the score will double for the next question
+#When 2x points button is pressed, the score will double for the next question
 double_score =tk.Button(window, text=('2x points'), command=activate_2x)
-double_score.pack(padx=50)
+double_score.pack_forget()
 
-# #When gift button is pressed, the 200 points will be added to the final score
+#When gift button is pressed, the 200 points will be added to the final score
 gift_score=tk.Button(window, text=('Gift'), command=activate_gift)
-gift_score.pack(padx=50)
+gift_score.pack_forget()
 
-def end_game():
-  window.destroy()
-  
+
+
 end_label = tk.Label(window, text='')
 end_label.pack()
-end_button=tk.Button(window, text='Done yet?', command=end_game)
-end_button.pack_forget()
+save_your_score=tk.Button(window, text=('Save your score'), font=('Helvetica', 16), command=insert_score_to_database(user_name, score))
+save_your_score.pack()
+# end_button=tk.Button(window, text='Done yet?', command=end_game)
+# end_button.pack_forget()
 # end_button.pack()
 window.mainloop()
 
 
 # endscreen initialisation
 with open("endscreen.py") as f:
-   code = f.read()
+    code = f.read()
 exec(code)
 
 

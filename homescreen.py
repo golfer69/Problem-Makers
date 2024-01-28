@@ -1,23 +1,11 @@
 import tkinter as tk
-import sqlite3
 
-conn=sqlite3.Connection('user_data.db')
-cursor=conn.cursor()
-
-cursor.execute("""CREATE TABLE IF NOT EXISTS user_data(Name PRIMARY KEY,Score INTEGER)""")
-
-
+global user_name
 def play_game():
     user_name = user.get()
     if user_name:
         welcome_message = f"Welcome, {user_name}! Let's start playing Shapey!"
         start.config(text=welcome_message, font=('Helvetica', 16, 'italic'), fg='green')
-        global saved_name
-        saved_name = user_name
-        cursor.execute("""INSERT INTO user_data (Name) 
-                       VALUES (?)""", (saved_name,))
-        conn.commit()
-        conn.close()
         home.destroy()
     else:
         start.config(text='Please enter your name!', font=('Helvetica', 16), fg='red')
