@@ -12,7 +12,6 @@ import random
 import tkinter as tk
 from turtle import RawTurtle, TurtleScreen
 import sqlite3
-import time 
 
 # homescreen initialisation
 with open("homescreen.py") as f: 
@@ -325,9 +324,14 @@ while timer < limit:
       button = tk.Button(window, text=answers, command=lambda index=index: (check_answer(index), next_question())) 
       button.pack(pady=5)
       answer_buttons.append(button)
-  window.update()
+  window.update() 
 
 if game_finished == True:
+  question_label.pack_forget() 
+  question_no_label.pack_forget()
+  for button in answer_buttons:
+    button.pack_forget()
+
   # connection to database
   conn=sqlite3.Connection('user_data.db')
   cursor=conn.cursor()
@@ -353,12 +357,12 @@ if game_finished == True:
         end_window()
 
   end_label = tk.Label(window, text='')
-  end_label.pack()
+  end_label.pack(pady=5)
   end_label.config(text="Quiz completed! Your score is " + str(score))
   # closes window after pressing enter
   save_your_score=tk.Button(window, text=('Show leaderboard'), font=('Helvetica', 16), command=destroy_game)
   window.bind('<Return>', enter2_key)
-  save_your_score.pack() # show the button  
+  save_your_score.pack(pady=5) # show the button  
 
 # #When 2x points button is pressed, the score will double for the next question
 # double_score =tk.Button(window, text=('2x points'), command=activate_2x)
