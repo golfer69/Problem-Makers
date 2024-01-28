@@ -58,23 +58,6 @@ for index, (name, score) in enumerate(leaderboard_data, start=1):
 close_game = tk.Button(second_frame, text=('Press Enter to Close'), font=('Arial', 20), command=end_game)
 close_game.pack(pady=50, side='bottom')
 
-
-# # Calculate the midpoint of the window for both the x and y coordinates
-# mid_x = end_screen.winfo_screenwidth() // 2
-# mid_y = end_screen.winfo_screenheight() // 2
-
-# # Calculate the width and height of the window
-# win_width = end_screen.winfo_reqwidth()
-# win_height = end_screen.winfo_reqheight()
-
-# # Calculate the coordinates for the middle of the window
-# x = mid_x - (win_width // 2)
-# y = mid_y - (win_height // 2)
-
-# # Set the window to be positioned at the calculated coordinates
-# end_screen.geometry(f'+{x}+{y}')
-
-# Set the window to be positioned at the calculated coordinates
 end_screen.geometry(f'600x400+{mid_x - 300}+{mid_y - 200}')
 
 
