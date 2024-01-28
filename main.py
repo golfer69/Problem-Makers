@@ -294,6 +294,7 @@ def next_question():
       question_label.config(text="") # clear labels
       question_no_label.config(text="")
       end_label.config(text="Quiz completed! Your score is " + str(score) + "/" + str(len(questions)))
+      save_your_score.pack() # show the button 
     else:
         current_question = questions[question_index]
         question_label.config(text=current_question["question"]) #configure the label for question
@@ -414,8 +415,8 @@ gift_score.pack_forget()
 
 end_label = tk.Label(window, text='')
 end_label.pack()
-save_your_score=tk.Button(window, text=('Save your score'), font=('Helvetica', 16), command=destroy_game)
-save_your_score.pack()
+save_your_score=tk.Button(window, text=('Show leaderboard'), font=('Helvetica', 16), command=destroy_game)
+save_your_score.pack_forget()
 window.mainloop()
 
 
